@@ -39,6 +39,7 @@ public final class Order {
     public Instant createdAt() { return createdAt; }
     public List<OrderLine> items() { return items; }
     public BigDecimal subtotal() { return subtotal; }
+    /** Original amount before discounts. Use Pricing.total() for the amount payable. */
     public BigDecimal total() { return subtotal; }
 
     /** Builds different valid order configurations without a long public constructor. */

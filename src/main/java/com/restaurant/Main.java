@@ -5,9 +5,15 @@ import com.restaurant.builder.product.Order;
 import com.restaurant.builder.product.OrderLine;
 import com.restaurant.factory.catalog.MenuCatalog;
 import com.restaurant.factory.product.Meal;
+import com.restaurant.strategy.api.DiscountStrategy;
+import com.restaurant.strategy.concrete.NoDiscount;
+import com.restaurant.strategy.concrete.PickupDiscount;
+import com.restaurant.strategy.concrete.StudentDiscount;
+import com.restaurant.strategy.context.Pricing;
+import com.restaurant.strategy.context.PricingCalculator;
 import java.math.BigDecimal;
 
-/** Anuar's integrated Factory Method + Builder demonstration. */
+/** Demonstrates the team's patterns using the same menu and orders. */
 public final class Main {
     private Main() { }
 
@@ -46,6 +52,14 @@ public final class Main {
             throw new IllegalStateException("Unexpected integrated order totals");
         }
         System.out.println("PASS — Factory Method products integrated with validated immutable Builder orders.");
+
+        PricingCalculator calculator = new PricingCalculator();
+        System.out.println("\nAkmaral: Strategy discounts for the takeaway order");
+        for (DiscountStrategy strategy : new DiscountStrategy[]{new NoDiscount(), new StudentDiscount(), new PickupDiscount()}) {
+            Pricing pricing = calculator.calculate(takeaway, strategy);
+            System.out.printf("  %s: subtotal %s, discount %s, total %s KZT%n",
+                strategy.code(), pricing.subtotal(), pricing.discount(), pricing.total());
+        }
     }
 
     private static void printOrder(Order order) {
@@ -57,6 +71,6 @@ public final class Main {
         if (!order.note().isBlank()) {
             System.out.println("  Note: " + order.note());
         }
-        System.out.println("  Total: " + order.total() + " KZT");
+        System.out.println("  Subtotal before discount: " + order.subtotal() + " KZT");
     }
 }

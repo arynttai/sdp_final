@@ -10,8 +10,8 @@
   <groupId>com.restaurant</groupId>
   <artifactId>hearth-and-table</artifactId>
   <version>1.0.0</version>
-  <name>Restaurant Ordering System - Anuar's contribution</name>
-  <description>Builder and Factory Method foundation for the team project</description>
+  <name>Restaurant Ordering System</name>
+  <description>Builder, Factory Method, Strategy and Bridge for the team project</description>
   <properties><java.version>21</java.version></properties>
   <dependencies>
     <dependency>

@@ -1,4 +1,4 @@
-# Hearth & Table — Restaurant Ordering System
+# Aituria — Restaurant Ordering System
 
 Team project in Java 21 and Spring Boot with six integrated design patterns:
 Anuar's **Builder** and **Factory Method**, Akmaral's **Strategy** and **Bridge**,
@@ -24,7 +24,7 @@ and `--demo` on pushes and pull requests.
 
 ## Website
 
-The interface uses an espresso, ivory, and amber restaurant palette with a
+Aituria uses an espresso, ivory, and amber restaurant palette with a
 large cinematic hero and locally served DM Sans and system Georgia typography.
 The hero is a realistic 3D-style illustration generated with HeyGen GPT Image
 2.6 and displayed as a static image. `cinematic.js` adds CSS perspective and

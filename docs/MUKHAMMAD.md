@@ -1,4 +1,4 @@
-# Mukhammad — Observer, Decorator, and website integration
+# Mukhammad — Observer, Decorator, and Aituria website integration
 
 This work extends the current `sdp_final` foundation through its existing
 public contracts. Anuar's Builder/Factory and Akmaral's Strategy/Bridge remain
@@ -9,10 +9,15 @@ the participants in the application flow. The implementation branch is
 
 - `8c41231` — Decorator implementation and tests.
 - `f70398d` — Observer implementation and tests.
+- `2a12537` — Web integration, cinematic design, and documentation.
 
-These are the verified author commits for the two patterns. The web integration,
-design, and documentation are prepared as the subsequent contribution; its
-commit identifier and published CI results are recorded once available.
+These verified author commits exist locally on `feature/mukhammad-3d-interface`.
+Publication is pending: Git push returned 403 for the authenticated
+`Vertex-blip` account, and the GitHub connector returned 403, “Resource not
+accessible by integration.” No remote feature branch or pull request was
+created, and no published CI result is claimed. The Aituria branding update
+adds the custom A monogram and concise interface copy; its commit is identified
+by the message `feat(brand): introduce Aituria identity and simplify interface copy`.
 
 ## Decorator
 
@@ -155,7 +160,7 @@ and adds a complete six-pattern walkthrough without starting a server.
 ## Design implementation
 
 `static/index.html`, `styles.css`, and `app.js` implement a cinematic restaurant
-interface in espresso, ivory, and amber, retaining the Hearth & Table identity
+interface in espresso, ivory, and amber, using the Aituria identity
 and locally served DM Sans and system Georgia fonts. A large realistic 3D-style
 hero illustration introduces the menu; real Unsplash food photographs, clear
 prices, straightforward categories, and a persistent basket support ordering.

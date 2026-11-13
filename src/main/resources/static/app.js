@@ -29,12 +29,12 @@
       const response = await fetch(path, { credentials: 'same-origin', ...options, signal: controller.signal,
         headers: { Accept: 'application/json', ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
       const body = await response.json().catch(() => null);
-      if (!response.ok) throw new Error(body?.message || `Something went wrong (${response.status}). Please try again.`);
-      if (body === null) throw new Error('The server returned an unreadable response. Please try again.');
+      if (!response.ok) throw new Error(body?.message || `Request failed (${response.status}). Try again.`);
+      if (body === null) throw new Error('Invalid server response. Try again.');
       return body;
     } catch (error) {
-      if (error.name === 'AbortError') throw new Error('The request timed out. Please try again.');
-      if (error instanceof TypeError) throw new Error('The server is unavailable. Check your connection and try again.');
+      if (error.name === 'AbortError') throw new Error('Request timed out. Try again.');
+      if (error instanceof TypeError) throw new Error('Server unavailable. Check your connection and try again.');
       throw error;
     } finally { clearTimeout(timeout); }
   }
@@ -200,7 +200,7 @@
     $('#add-to-cart span').textContent = editing === null ? 'Add to order' : 'Save changes';
     const choices = $('#topping-options'); choices.replaceChildren();
     if (dish.category === 'DRINK') {
-      choices.append(el('p', 'topping-hint', 'Extra toppings are not available for drinks.'));
+      choices.append(el('p', 'topping-hint', 'No extra toppings for drinks.'));
     } else {
       for (const topping of state.menu.toppings) {
         const label = el('label', 'topping-option');
@@ -234,7 +234,7 @@
       errorAt('#dialog-error', 'Choose a quantity between 1 and 10.'); return;
     }
     if (line.toppings.length > 3) {
-      errorAt('#dialog-error', 'Choose up to three extras for your dish.'); return;
+      errorAt('#dialog-error', 'Choose up to 3 toppings.'); return;
     }
     state.dialogTimer = window.setTimeout(async () => {
       try {
@@ -257,10 +257,10 @@
     if ($('#add-to-cart').disabled || !$('#customize-form').reportValidity() || state.placing) return;
     const line = dialogLine();
     if (state.editing === null) {
-      if (state.cart.length >= 20) { errorAt('#dialog-error', 'Your order can contain up to 20 different selections.'); return; }
+      if (state.cart.length >= 20) { errorAt('#dialog-error', 'Up to 20 dish selections per order.'); return; }
       state.cart.push(line);
     } else { state.cart[state.editing] = line; }
-    const message = state.editing === null ? `${state.dish.name} added to your basket.` : 'Basket updated.';
+    const message = state.editing === null ? `${state.dish.name} added.` : 'Basket updated.';
     closeDialog(); cartChanged(); toast(message);
   }
 
@@ -286,7 +286,7 @@
     event.preventDefault();
     if (state.placing || !state.quote || !state.cart.length || !$('#checkout-form').reportValidity()) return;
     const customerName = $('#customer-name').value.trim();
-    if (customerName.length < 2) { errorAt('#checkout-error', 'Please enter a name with at least two characters.'); $('#customer-name').focus(); return; }
+    if (customerName.length < 2) { errorAt('#checkout-error', 'Enter a name with at least 2 characters.'); $('#customer-name').focus(); return; }
     const request = { ...quotePayload(), customerName, tableNumber: fulfillment() === 'DINE_IN' ? Number($('#table-number').value) : null,
       note: $('#order-note').value.trim() };
     const fingerprint = JSON.stringify(request);
@@ -301,7 +301,7 @@
       state.cart = []; state.requestId = null; state.fingerprint = null; state.quote = null;
       persistCart(); renderOrders();
       window.location.hash = 'orders';
-      toast('Order placed successfully.');
+      toast('Order placed.');
     } catch (error) { errorAt('#checkout-error', error.message); }
     finally { setCheckoutBusy(false); }
   }
@@ -314,7 +314,7 @@
     if (!state.orders.length) {
       const empty = el('div', 'empty-orders');
       empty.append(el('h2', '', 'No orders yet'),
-        el('p', '', 'Place an order from the menu to see its progress here.'));
+        el('p', '', 'Your orders will appear here.'));
       const link = el('a', 'button button-dark', 'Browse menu'); link.href = '#menu-list'; empty.append(link); container.append(empty);
       return;
     }

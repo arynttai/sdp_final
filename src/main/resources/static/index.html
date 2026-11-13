@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171410">
+  <meta name="description" content="Hearth & Table. Pizza, pasta and a place at the table. Explore the menu, choose your toppings and order for dine-in or takeaway.">
+  <title>Hearth & Table — Crafted by fire</title>
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+  <script src="/cinematic.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#menu" aria-label="Hearth and Table home"><span class="brand-symbol">h&t</span><span>hearth<span class="brand-amp">&</span>table<span class="brand-caption">RESTAURANT</span></span></a>
+    <div class="header-info"><strong>A place at the table</strong><span class="header-service">Dine-in & takeaway</span></div>
+    <nav aria-label="Main navigation"><a href="#menu" class="active">Menu</a><a href="#orders">Your orders <span id="order-count" class="nav-count" hidden>0</span></a></nav>
+    <a href="#your-order" class="basket-link" aria-label="Go to your basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16l-2 12H6L4 8Z M8 8l4-5 4 5"/></svg><span>Basket</span><b id="cart-count">0</b></a>
+  </header>
+  <main id="main">
+    <div id="view-menu">
+      <section class="cinematic-hero" aria-labelledby="cinematic-title">
+        <div class="hero-media"><img id="hero-cinematic-image" src="/images/hero-cinematic.jpg" data-hero-fallback="/images/hero-pizza.jpg" alt="Pizza with a golden crust, tomato, mozzarella and fresh basil" fetchpriority="high" decoding="async"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="hero-kicker">HEARTH & TABLE / RESTAURANT</p>
+          <h1 id="cinematic-title">Crafted by fire.<br><span>Made for you.</span></h1>
+          <p class="hero-description">Golden crust. Fresh basil. A generous table.<br>Discover pizza and pasta, made your way.</p>
+          <a class="hero-cta" href="#menu-list">Browse menu <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-bottom">
+          <span class="hero-origin">DINE-IN & TAKEAWAY · PRICES IN KZT</span>
+          <a class="hero-scroll" href="#menu-list"><span aria-hidden="true">↓</span> Explore the menu</a>
+          <button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause motion"><span class="motion-toggle-label">Pause motion</span></button>
+        </div>
+      </section>
+      <section class="benefits-bar page-width" aria-label="Order your way">
+        <div class="benefit-item"><strong>Pizza & pasta</strong><span>Find your next favourite on the menu.</span></div>
+        <div class="benefit-item"><strong>Your choice of toppings</strong><span>Customise your dish with up to three extras.</span></div>
+        <div class="benefit-item"><strong>At the table or to go</strong><span>Choose dine-in or takeaway at checkout.</span></div>
+      </section>
+      <section class="menu-layout page-width" id="menu-list" aria-labelledby="menu-heading">
+        <div class="menu-main">
+          <div class="section-top"><h2 id="menu-heading">Menu</h2><span id="menu-count" class="menu-count"></span></div>
+          <div class="menu-toolbar">
+            <div class="category-tabs" role="group" aria-label="Food category"><button type="button" data-category="ALL" class="active" aria-pressed="true">All</button><button type="button" data-category="PIZZA" aria-pressed="false">Pizza</button><button type="button" data-category="PASTA" aria-pressed="false">Pasta</button><button type="button" data-category="DRINK" aria-pressed="false">Drinks</button></div>
+            <label class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="sr-only">Search the menu</span><input id="menu-search" type="search" placeholder="Search dishes"></label>
+          </div>
+          <div id="menu-error" class="error-box" role="alert" hidden></div>
+          <div id="menu-grid" class="menu-grid" aria-live="polite"><div class="loading-state"><span class="loading-ring"></span>Loading menu…</div></div>
+          <p class="menu-note">Prices are in KZT. Pizza and pasta can be customised with up to three toppings.</p>
+        </div>
+        <div id="your-order" class="cart-anchor">
+          <aside id="cart-panel" class="cart-panel" aria-labelledby="cart-heading">
+            <div class="cart-heading"><h2 id="cart-heading">Your order</h2></div>
+            <div id="cart-empty" class="cart-empty"><div class="empty-plate" aria-hidden="true"><span></span></div><h3>Your basket is empty</h3><p>Add dishes from the menu<br>to start your order.</p><a href="#menu-list">Browse menu</a></div>
+            <div id="cart-items"></div>
+            <form id="checkout-form" hidden>
+              <fieldset class="service-field"><legend>Order type</legend><div class="service-toggle"><label><input type="radio" name="fulfillment" value="DINE_IN"><span>Dine-in</span></label><label><input type="radio" name="fulfillment" value="TAKEAWAY" checked><span>Takeaway</span></label></div></fieldset>
+              <div class="customer-fields"><label for="customer-name">Your name<input id="customer-name" minlength="2" maxlength="60" autocomplete="given-name" required placeholder="Enter your name"></label><label for="table-number" id="table-field" hidden>Table<select id="table-number" aria-label="Table number"></select></label></div>
+              <label class="field-label" for="discount-code">Discount<select id="discount-code"><option value="NONE">No discount</option></select></label>
+              <label class="field-label" for="order-note">Note for the kitchen <span>optional</span><textarea id="order-note" maxlength="300" rows="2" placeholder="Add a preparation note"></textarea></label>
+              <div class="cart-totals"><div><span>Subtotal</span><span id="quote-subtotal">—</span></div><div><span>Discount</span><span id="quote-discount">—</span></div><div class="cart-total"><span>Total</span><strong id="quote-total">—</strong></div></div>
+              <div id="checkout-error" class="error-box" role="alert" hidden></div>
+              <button class="primary-button" id="place-order" type="submit" disabled>Place order</button>
+              <p class="demo-note">Demo ordering only. No payment is taken or food delivered.</p>
+            </form>
+          </aside>
+        </div>
+      </section>
+    </div>
+    <section id="view-orders" class="orders-view page-width" hidden aria-labelledby="orders-heading">
+      <div class="orders-top"><div><h1 id="orders-heading">Your orders</h1><p>Track progress and view your receipts.</p></div><button id="refresh-orders" class="outline-button" type="button">Refresh orders <span aria-hidden="true">↻</span></button></div>
+      <p class="session-note">Demo orders are saved for this browser session. They clear when the session expires or the server restarts.</p>
+      <div id="orders-error" class="error-box" role="alert" hidden></div><div id="orders-list" aria-live="polite"></div>
+    </section>
+  </main>
+  <footer class="site-footer page-width"><a class="footer-brand" href="#menu">hearth<span>&</span>table</a><p>Pizza, pasta and drinks. Restaurant ordering demo.</p><span>© 2026 HEARTH & TABLE</span></footer>
+  <dialog id="customize-dialog" class="customize-dialog" aria-labelledby="dialog-name">
+    <button type="button" id="close-dialog" class="close-dialog" aria-label="Close dish options">×</button>
+    <div class="dialog-visual"><img id="dialog-image" alt=""></div>
+    <form id="customize-form" class="dialog-content">
+      <span id="dialog-category" class="eyebrow"></span><h2 id="dialog-name"></h2><p id="dialog-description"></p>
+      <fieldset class="toppings-field"><legend>Extra toppings <span>Choose up to 3</span></legend><div id="topping-options"></div></fieldset>
+      <div class="dialog-quantity-row"><span>Quantity</span><div class="quantity-stepper"><button id="dialog-minus" type="button" aria-label="Decrease quantity">−</button><input id="dialog-quantity" type="number" min="1" max="10" value="1" aria-label="Quantity" required><button id="dialog-plus" type="button" aria-label="Increase quantity">+</button></div></div>
+      <div id="dialog-error" class="error-box" role="alert" hidden></div>
+      <button type="submit" id="add-to-cart" class="primary-button"><span>Add to order</span><strong id="dialog-total">—</strong></button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

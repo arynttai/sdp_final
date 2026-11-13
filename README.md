@@ -1,6 +1,10 @@
-# Restaurant Ordering System
+# Hearth & Table — Restaurant Ordering System
 
-Team project in Java 21 with four implemented patterns: Anuar's **Builder** and **Factory Method**, and Akmaral's **Strategy** and **Bridge**. This is the runnable domain foundation; Observer, Decorator and the web application are still to be integrated by Mukhammad.
+Team project in Java 21 and Spring Boot with six integrated design patterns:
+Anuar's **Builder** and **Factory Method**, Akmaral's **Strategy** and **Bridge**,
+and Mukhammad's **Observer** and **Decorator**. The same application serves the
+restaurant website and its Java API. Orders are a session-scoped, in-memory
+coursework demonstration; there are no real payments or SMS/email deliveries.
 
 ## Run and test
 
@@ -8,10 +12,42 @@ Install JDK 21 and set `JAVA_HOME`. The checked-in Maven wrapper downloads Maven
 
 ```sh
 ./mvnw verify
+java -jar target/hearth-and-table-1.0.0.jar --demo
 java -jar target/hearth-and-table-1.0.0.jar
 ```
 
-On Windows, use `mvnw.cmd verify`. `Main` creates meals, builds validated dine-in and takeaway orders, calculates discounts and renders customer/kitchen receipts in text and HTML. Prices are in KZT. GitHub Actions runs the tests and the console demonstration on pushes and pull requests.
+Open [http://localhost:8080](http://localhost:8080) after the normal JAR launch.
+On Windows PowerShell, use `.\mvnw.cmd verify`; the Java commands are the same.
+`--demo` exercises all six patterns and exits without starting the web server.
+Prices are in KZT. The GitHub Actions workflow is configured to run the tests
+and `--demo` on pushes and pull requests.
+
+## Website
+
+The interface uses an espresso, ivory, and amber restaurant palette with a
+large cinematic hero and locally served DM Sans and system Georgia typography.
+The hero is a realistic 3D-style illustration generated with HeyGen GPT Image
+2.6 and displayed as a static image. `cinematic.js` adds CSS perspective and
+pointer parallax, with a motion toggle, reduced-motion support, and pauses
+while the hero is offscreen or the browser tab is hidden. It is an image-based
+treatment, not a WebGL model or generated video.
+
+The menu uses real Unsplash food photographs, clear prices, straightforward
+category navigation, and a persistent basket. Hero artwork, menu photographs,
+fonts, and interaction code are served locally.
+
+The customer can filter the menu, choose quantities and toppings, edit the
+basket, select dine-in or takeaway and a discount, obtain a server quote,
+and place an order. The orders view displays Java Observer notifications and
+offers an explicitly labelled demo status advance. Customer and kitchen
+documents use Akmaral's Bridge in HTML or text. API pricing remains authoritative.
+
+See [Mukhammad's implementation and verification notes](docs/MUKHAMMAD.md).
+Image sources are recorded in
+[`images/CREDITS.txt`](src/main/resources/static/images/CREDITS.txt). Font
+licenses are included alongside the local font files:
+[`Bricolage Grotesque`](src/main/resources/static/fonts/OFL-BricolageGrotesque.txt)
+and [`DM Sans`](src/main/resources/static/fonts/OFL-DMSans.txt).
 
 ## Anuar's two patterns
 
@@ -35,17 +71,34 @@ src/main/java/com/restaurant/
 │   ├── product/
 │   └── catalog/
 ├── builder/
-│   └── product/
+│   ├── product/
+│   ├── application/      # orchestration and DTOs
+│   ├── repository/       # one order book per HTTP session
+│   └── web/              # HTTP adapters
 ├── strategy/
 │   ├── api/
 │   ├── concrete/
 │   └── context/
-└── bridge/
-    ├── abstraction/
-    └── implementation/
+├── bridge/
+│   ├── abstraction/
+│   └── implementation/
+├── decorator/
+│   ├── component/
+│   ├── concrete/
+│   └── catalog/
+└── observer/
+    ├── api/
+    ├── subject/
+    ├── concrete/
+    └── event/
 ```
 
-`Main` is the only Java file directly at the package root. Tests follow the corresponding pattern packages. The factory has no dependency on the builder or on the remaining patterns. The builder depends on the `Meal` abstraction, allowing Decorator to wrap products later.
+`Main` is the only Java file directly at the package root. Tests follow the
+corresponding pattern packages. The factory has no dependency on the builder
+or on the remaining patterns. The builder depends on the `Meal` abstraction,
+which the topping decorators implement. Web/application adapters live under
+`builder` to preserve the six-package coursework structure; domain products,
+strategies, renderers, and observers remain independent of HTTP.
 
 ## Akmaral's two patterns
 
@@ -62,13 +115,59 @@ The calculator applies one selected discount to the order subtotal. It uses `Big
 
 Both receipt types work with either renderer. Customer receipts include the discounted total; kitchen tickets include preparation details without prices. The HTML renderer escapes all dynamic text. See [Akmaral's notes](docs/AKMARAL.md) for class roles, UML, SOLID examples and the public API for integration.
 
+## Mukhammad's two patterns
+
+| Pattern | Role | Implementation |
+| --- | --- | --- |
+| Decorator | Shared wrapper | `ToppingDecorator` implements and wraps `Meal` |
+| Decorator | Concrete toppings | `ExtraCheese` +350, `Mushrooms` +300, `Olives` +300 KZT |
+| Decorator | Metadata / registration | `ToppingType`, `ToppingCatalog` |
+| Observer | Contract | `OrderObserver.onStatusChanged` |
+| Observer | Subject | Per-order `OrderProgress`, with subscribe/unsubscribe and validated transitions |
+| Observer | Subscribers | `CustomerObserver`, `KitchenObserver` |
+| Observer | Event values | `StatusChange`, `OrderNotification`, `OrderStatus` |
+
+Toppings preserve the wrapped meal's ID and category and cannot decorate drinks.
+The catalog accepts at most three distinct known topping IDs. Two Margheritas
+with Extra cheese have subtotal 4700 KZT and STUDENT total 4230 KZT.
+The order subject announces placement, then advances through
+`PLACED → PREPARING → READY → COMPLETED`. Each current subscriber produces one
+notification per publication. Repeating the same requested status is idempotent;
+invalid transitions do not publish events.
+
+## API and order privacy
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/api/health` | Health status |
+| GET | `/api/menu` | Meals, toppings, discounts, currency, and status sequence |
+| POST | `/api/orders/quote` | Server pricing without storing an order |
+| POST | `/api/orders` | Place an order with a UUID `requestId` |
+| GET | `/api/orders` | Current session's orders |
+| GET | `/api/orders/{id}` | One order in the current session |
+| POST | `/api/orders/{id}/advance` | Advance the demo by one valid status |
+| POST | `/api/orders/{id}/status` | Request a status; a repeated current status adds no events |
+| GET | `/api/orders/{id}/receipt?type=customer&format=html` | Bridge receipt; `type=customer\|kitchen`, `format=html\|text` |
+
+Send JSON with `Content-Type: application/json` for POST requests. The server
+validates inputs and returns a JSON `message` on errors. Each HTTP session has
+its own order book, limited to 20 orders. Another session cannot read, advance,
+or render receipts for these orders. Orders disappear when the session expires
+(configured timeout: 60 minutes) or the server restarts. API responses use
+`Cache-Control: no-store`.
+
+Retrying the same `requestId` and payload returns the existing order, including
+under concurrent requests. Reusing that ID with different order details returns
+a conflict. Pricing and the immutable order are stored together, so receipts
+use the same discounted total returned at placement.
+
 ## Design choices
 
-- **SRP:** menu definitions, product creation, order construction and the console demonstration have separate responsibilities.
+- **SRP:** menu definitions, product creation, order construction, status publication, HTTP handling, and rendering have separate responsibilities.
 - **OCP / DIP:** clients use `Meal` and `MealFactory`; adding a concrete creator does not change `Order`.
 - **LSP / ISP:** the three meal types share one small product contract.
 - **DRY:** `BaseMeal` holds common immutable product data; money and order validation have a single implementation.
-- **KISS:** ordinary Java classes, records and collections; no framework is needed to demonstrate these patterns. The Maven parent supplies dependency versions for later Spring Boot integration.
+- **KISS:** the patterns use ordinary Java classes, records, and collections. Spring Boot supplies the web boundary and serves one HTML/CSS/JavaScript frontend.
 
 ## Team integration
 
@@ -76,12 +175,28 @@ Both receipt types work with either renderer. Customer receipts include the disc
 | --- | --- | --- |
 | Anuar | [ANAYSSA](https://github.com/ANAYSSA) | Builder, Factory Method — implemented here |
 | Akmaral | [arynttai](https://github.com/arynttai) | Strategy, Bridge — implemented here |
-| Mukhammad | [vertex-blip](https://github.com/vertex-blip) | Observer, Decorator — to integrate |
+| Mukhammad | [vertex-blip](https://github.com/vertex-blip) | Observer, Decorator, website integration — implemented in this worktree |
 
-Mukhammad should add `observer` and `decorator`, with role-specific subfolders, to complete the six pattern packages. Keep `Main` as the sole root class and extend its demonstration after integration. Decorator can implement `Meal` and wrap products before building the order; Observer can manage progress separately from the immutable order. Use `PricingCalculator` for totals and the Bridge documents for receipts, as described in [the integration notes](docs/AKMARAL.md#integration-for-mukhammad).
+The integrated flow is **Factory → Decorator → Builder → Strategy**, followed
+by Observer status notifications and Bridge receipts. The original Factory,
+Builder, Strategy, and Bridge contracts and their existing tests are preserved.
+See [Akmaral's integration notes](docs/AKMARAL.md#integration-for-mukhammad) and
+[Mukhammad's notes](docs/MUKHAMMAD.md) for the extension points.
 
 Each member must use their own GitHub-linked commit email and commit real implementation changes. Merge their commits into `main` without replacing authors. GitHub's commit history shows authors directly; profile graphs and Contributors may update later because GitHub caches them.
 
-This branch currently covers **two creational, one behavioral and one structural pattern**. It is not yet the completed six-pattern submission. The final team submission still needs Observer, Decorator, the planned web application, screenshots, complete UML, a PDF report, source ZIP and each student's individual submission by the course deadline.
+The current implementation covers **two creational, two behavioral, and two
+structural patterns**. `./mvnw verify` passed 61 tests in the current integration
+run, including domain, HTTP, idempotency, session-isolation, and package-layout
+checks. Desktop and mobile browser checks passed for the complete ordering flow,
+keyboard dialogs, receipts, and error recovery; see [Mukhammad's notes](docs/MUKHAMMAD.md).
+A local
+implementation/test result does not establish that changes have been published
+or that GitHub Actions has run for them.
 
-The implementation adapts Anuar's existing Builder/Factory foundation from [Final-Project-SDP](https://github.com/ANAYSSA/Final-Project-SDP), with dependencies on the other four patterns removed. It continues the [Builder](https://github.com/ANAYSSA/SDPAssignment1Builder) and [Abstract Factory assignment](https://github.com/ANAYSSA/Assignment2SDP_AbstractFactory_AnuarM); this contribution explicitly demonstrates **Factory Method**.
+The final team submission still requires reviewed screenshots, complete project
+UML, the combined PDF report, source ZIP, and each student's individual Moodle
+submission by the course deadline. This repository does not claim those
+submission steps have happened.
+
+Anuar's initial foundation adapted Builder/Factory from [Final-Project-SDP](https://github.com/ANAYSSA/Final-Project-SDP), removing dependencies on the other four patterns before the team's separate integrations. It continues the [Builder](https://github.com/ANAYSSA/SDPAssignment1Builder) and [Abstract Factory assignment](https://github.com/ANAYSSA/Assignment2SDP_AbstractFactory_AnuarM); this contribution explicitly demonstrates **Factory Method**.

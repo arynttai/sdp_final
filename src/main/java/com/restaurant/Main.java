@@ -1,5 +1,10 @@
 package com.restaurant;
 
+import com.restaurant.bridge.abstraction.CustomerReceipt;
+import com.restaurant.bridge.abstraction.KitchenTicket;
+import com.restaurant.bridge.implementation.HtmlReceiptRenderer;
+import com.restaurant.bridge.implementation.ReceiptRenderer;
+import com.restaurant.bridge.implementation.TextReceiptRenderer;
 import com.restaurant.builder.product.Fulfillment;
 import com.restaurant.builder.product.Order;
 import com.restaurant.builder.product.OrderLine;
@@ -59,6 +64,17 @@ public final class Main {
             Pricing pricing = calculator.calculate(takeaway, strategy);
             System.out.printf("  %s: subtotal %s, discount %s, total %s KZT%n",
                 strategy.code(), pricing.subtotal(), pricing.discount(), pricing.total());
+        }
+
+        Pricing studentPricing = calculator.calculate(dineIn, new StudentDiscount());
+        System.out.println("\nAkmaral: Bridge receipts for the dine-in order with STUDENT discount");
+        printReceipts(dineIn, studentPricing);
+    }
+
+    private static void printReceipts(Order order, Pricing pricing) {
+        for (ReceiptRenderer renderer : new ReceiptRenderer[]{new TextReceiptRenderer(), new HtmlReceiptRenderer()}) {
+            System.out.println(new CustomerReceipt(renderer).render(order, pricing));
+            System.out.println(new KitchenTicket(renderer).render(order, pricing));
         }
     }
 

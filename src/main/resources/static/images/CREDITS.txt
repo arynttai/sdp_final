@@ -27,22 +27,28 @@ story.jpg
   https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=1400&q=85
 margherita.jpg
   https://images.unsplash.com/photo-1593560708920-61dd98c46a4e
-  https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 2133 pixels; JPEG quality 90.
 garden.jpg
   https://images.unsplash.com/photo-1594007654729-407eedc4be65
-  https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 2169 pixels; JPEG quality 90.
 alfredo.jpg
   https://images.unsplash.com/photo-1645112411341-6c4fd023714a
-  https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 1067 pixels; JPEG quality 90.
 pesto.jpg
   https://images.unsplash.com/photo-1743352388509-835796029c79
-  https://images.unsplash.com/photo-1743352388509-835796029c79?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1743352388509-835796029c79?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 2416 pixels; JPEG quality 90.
 pepperoni.jpg
   https://images.unsplash.com/photo-1528137871618-79d2761e3fd5
-  https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 1067 pixels; JPEG quality 90.
 lemonade.jpg
   https://images.unsplash.com/photo-1592685864704-91b3d2b8c24a
-  https://images.unsplash.com/photo-1592685864704-91b3d2b8c24a?auto=format&fit=crop&w=1000&q=85
+  https://images.unsplash.com/photo-1592685864704-91b3d2b8c24a?auto=format&fit=crop&w=1600&q=90
+  Downloaded dimensions: 1600 x 2400 pixels; JPEG quality 90.
 
 Photographer/source pages for the additional selected menu photographs:
 Pesto — Helen Van: https://unsplash.com/photos/delicious-pesto-pasta-with-fresh-basil-2TMqlO-zqNY

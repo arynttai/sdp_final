@@ -161,19 +161,29 @@ and adds a complete six-pattern walkthrough without starting a server.
 ## Design implementation
 
 `static/index.html`, `styles.css`, and `app.js` implement a restaurant interface
-with a dark espresso header and hero, bronze accents, and a warm ivory menu.
+with dark espresso backgrounds across the hero, menu, basket, dialogs, and orders,
+plus bronze accents and clear action buttons.
 The original floating-pizza artwork, supplied again by the user, fills the hero.
 The bronze Aituria identity uses locally served Bricolage Grotesque and DM Sans
 with system Georgia. Food photographs, clear prices, categories, and a persistent
-basket support ordering.
+basket support ordering. Russian interface labels and spaced KZT prices are
+localized in the browser without changing the menu IDs or API data. Product
+dialogs place the base price, toppings, quantity, and total beside a large photo.
+The six menu photographs use 1600-pixel-wide variants of their original sources.
 The basket and order views use server-provided options, prices, totals, status
 sequence, and notifications.
 
 The hero uses the original artwork as a static image with a responsive crop.
 Repeated restaurant captions, slogans, ornamental rules, motion controls, and
-duplicate status labels were removed. Functional form labels, price information,
-order progress, and the demo-only notice remain. The stylesheet defines one
-responsive layout.
+duplicate status labels were removed. Orders use a compact list with one current
+status, item prices, total, and a customer receipt. Native disclosures contain
+customer history; nested demo controls preserve kitchen notifications,
+all remaining receipt formats, and the demo status action. Expanded sections
+survive refresh and status changes, and keyboard focus follows the status action.
+Functional form labels, price information, and the checkout demo notice remain.
+The stylesheet defines one responsive layout. HTML receipt documents use the
+same dark palette through the web wrapper; the Bridge renderer and its document
+content retain their existing contracts. Printed receipts use light paper colors.
 
 Menu photography is illustrative; its source URLs and Unsplash license reference,
 along with the generated hero and logo artwork's provenance, are recorded in
@@ -232,10 +242,19 @@ order; a second session could not see it. Network-error recovery passed.
 Fresh-page checks found no JavaScript errors or failed resources, and neither
 layout overflowed horizontally.
 
+The final dark interface also passed checks at 320, 768, and 1024 pixels.
+Russian labels and prices, image activation, modal base prices, dark checkout
+fields and HTML receipts, and the absence of duplicate discount percentages
+were verified. Order disclosures retained their state through refresh and
+status changes, with keyboard focus preserved; multiple orders and long
+names/notes wrapped without overflow.
+
 Screenshots: [desktop menu](screenshots/desktop-menu.png),
 [mobile menu](screenshots/mobile-menu.png),
 [desktop order](screenshots/desktop-orders.png), and
-[mobile order](screenshots/mobile-orders.png).
+[mobile order](screenshots/mobile-orders.png),
+[desktop dish options](screenshots/desktop-dialog.png), and
+[mobile dish options](screenshots/mobile-dialog.png).
 The team PDF/ZIP/Moodle submissions and deployment are separate steps; this
 document does not claim they have happened.
 

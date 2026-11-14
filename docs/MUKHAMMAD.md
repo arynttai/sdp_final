@@ -11,13 +11,12 @@ the participants in the application flow. The implementation branch is
 - `f70398d` — Observer implementation and tests.
 - `2a12537` — Web integration, cinematic design, and documentation.
 
-These verified author commits exist locally on `feature/mukhammad-3d-interface`.
-Publication is pending: Git push returned 403 for the authenticated
-`Vertex-blip` account, and the GitHub connector returned 403, “Resource not
-accessible by integration.” No remote feature branch or pull request was
-created, and no published CI result is claimed. The Aituria branding update
-adds the custom A monogram and concise interface copy; its commit is identified
-by the message `feat(brand): introduce Aituria identity and simplify interface copy`.
+- `b577270` — Aituria identity and concise interface copy.
+- `0e48a73` — Sculpted bronze emblem and browser icons.
+
+These commits were published under `Vertex-blip` on
+`feature/mukhammad-3d-interface`. [PR #1](https://github.com/arynttai/sdp_final/pull/1)
+contains the integration; the GitHub Actions run for `0e48a73` passed.
 
 ## Decorator
 
@@ -159,25 +158,21 @@ and adds a complete six-pattern walkthrough without starting a server.
 
 ## Design implementation
 
-`static/index.html`, `styles.css`, and `app.js` implement a cinematic restaurant
-interface in espresso, ivory, and amber, using the Aituria identity
-and locally served DM Sans and system Georgia fonts. A large realistic 3D-style
-hero illustration introduces the menu; real Unsplash food photographs, clear
-prices, straightforward categories, and a persistent basket support ordering.
+`static/index.html`, `styles.css`, and `app.js` implement a restaurant interface
+in warm ivory and dark green, using the bronze Aituria identity and locally served
+DM Sans and system Georgia fonts. A real photograph of pizza by an oven introduces
+the menu. Food photographs, clear prices, categories, and a persistent basket support ordering.
 The basket and order views use server-provided options, prices, totals, status
 sequence, and notifications.
 
-`images/hero-cinematic.jpg` was generated with HeyGen GPT Image 2.6 on
-2026-11-13. It is static artwork. `cinematic.js` applies CSS perspective and
-pointer parallax to that image and supplies an explicit motion toggle,
-reduced-motion handling, and offscreen/hidden-tab safeguards. The delivered
-hero is not a WebGL model or a generated video. The attempted Higgsfield
-generation was unavailable on the Basic plan, and the HeyGen video attempt
-returned an allowance error (402); neither attempt supplied a final asset.
-The successful image generation is identified in the asset credits.
+The earlier generated floating-pizza hero and its animation script were removed.
+Repeated restaurant captions, slogans, ornamental rules, and duplicate status
+labels were also removed. Functional form labels, price information, order
+progress, and the demo-only notice remain. The stylesheet defines one coherent
+responsive layout rather than accumulating overrides for previous designs.
 
 Menu photography is illustrative; its source URLs and Unsplash license reference,
-along with the separate generated-hero provenance, are recorded in
+along with the generated logo's provenance, are recorded in
 [`images/CREDITS.txt`](../src/main/resources/static/images/CREDITS.txt).
 Font families originate from Google Fonts and are served as local font files,
 with their upstream SIL Open Font Licenses included for

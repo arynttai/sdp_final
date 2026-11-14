@@ -13,7 +13,7 @@
   const moneyFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
   const money = value => `${moneyFormat.format(Number(value))} ₸`;
   const categories = { PIZZA: 'Pizza', PASTA: 'Pasta', DRINK: 'Drinks' };
-  const statusLabels = { PLACED: 'Order received', PREPARING: 'In the kitchen', READY: 'Ready for collection', COMPLETED: 'Completed' };
+  const statusLabels = { PLACED: 'Received', PREPARING: 'Preparing', READY: 'Ready', COMPLETED: 'Completed' };
   const imagePath = id => `/images/${encodeURIComponent(id)}.jpg`;
   const el = (tag, className, text) => {
     const element = document.createElement(tag);
@@ -34,7 +34,7 @@
       return body;
     } catch (error) {
       if (error.name === 'AbortError') throw new Error('Request timed out. Try again.');
-      if (error instanceof TypeError) throw new Error('Server unavailable. Check your connection and try again.');
+      if (error instanceof TypeError) throw new Error('Cannot connect. Check your connection and try again.');
       throw error;
     } finally { clearTimeout(timeout); }
   }
@@ -129,7 +129,8 @@
       remove.type = 'button'; remove.setAttribute('aria-label', `Remove ${dish.name}`); remove.disabled = state.placing;
       remove.addEventListener('click', () => { if (!state.placing) { state.cart.splice(index, 1); cartChanged(); } });
       top.append(title, remove);
-      const options = el('p', 'cart-row-options', toppingNames(line.toppings).join(' · ') || 'No extra toppings');
+      const options = el('p', 'cart-row-options', toppingNames(line.toppings).join(', '));
+      options.hidden = !line.toppings.length;
       const bottom = el('div', 'cart-row-bottom');
       const stepper = el('div', 'quantity-stepper');
       const minus = el('button', 'step-minus', '−'); minus.type = 'button'; minus.disabled = state.placing || line.quantity <= 1;
@@ -182,7 +183,7 @@
         if (sequence !== state.quoteSequence) return;
         $('#quote-total').textContent = 'Unavailable';
         errorAt('#checkout-error', error.message);
-        const retry = el('button', 'retry-button', 'Try calculation again'); retry.type = 'button';
+        const retry = el('button', 'retry-button', 'Try again'); retry.type = 'button';
         retry.addEventListener('click', queueQuote); $('#checkout-error').append(retry);
       }
     }, 220);
@@ -197,7 +198,7 @@
     $('#dialog-category').textContent = categories[dish.category] || dish.category;
     $('#dialog-image').src = imagePath(dish.id); $('#dialog-image').alt = dish.name;
     $('#dialog-quantity').value = line?.quantity || 1;
-    $('#add-to-cart span').textContent = editing === null ? 'Add to order' : 'Save changes';
+    $('#add-to-cart span').textContent = editing === null ? 'Add to basket' : 'Save';
     const choices = $('#topping-options'); choices.replaceChildren();
     if (dish.category === 'DRINK') {
       choices.append(el('p', 'topping-hint', 'No extra toppings for drinks.'));
@@ -313,9 +314,8 @@
     $('#order-count').hidden = state.orders.length === 0;
     if (!state.orders.length) {
       const empty = el('div', 'empty-orders');
-      empty.append(el('h2', '', 'No orders yet'),
-        el('p', '', 'Your orders will appear here.'));
-      const link = el('a', 'button button-dark', 'Browse menu'); link.href = '#menu-list'; empty.append(link); container.append(empty);
+      empty.append(el('h2', '', 'No orders yet'));
+      const link = el('a', 'button button-dark', 'View menu'); link.href = '#menu-list'; empty.append(link); container.append(empty);
       return;
     }
     const orders = [...state.orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -325,8 +325,7 @@
       const title = el('div');
       title.append(el('p', 'order-ref', `ORDER ${order.id.slice(0, 8).toUpperCase()}`), el('h2', '', statusLabels[order.status] || order.status),
         el('p', 'order-meta', `${order.customerName} · ${order.fulfillment === 'DINE_IN' ? `Table ${order.tableNumber}` : 'Take away'} · ${dateLabel(order.createdAt)}`));
-      const badge = el('span', 'order-badge', statusLabels[order.status] || order.status); badge.dataset.status = order.status;
-      top.append(title, badge); card.append(top);
+      top.append(title); card.append(top);
       const steps = el('ol', 'order-progress'); steps.setAttribute('aria-label', 'Order progress');
       const statuses = state.menu.statuses || [];
       const current = statuses.indexOf(order.status);
@@ -338,7 +337,7 @@
       card.append(steps);
       const detail = el('div', 'order-detail-grid');
       const lines = el('div', 'order-lines');
-      lines.append(el('h3', 'order-section-title', 'Order items'));
+      lines.append(el('h3', 'order-section-title', 'Items'));
       for (const item of order.items) {
         const line = el('div', 'order-line'); line.append(el('span', '', `${item.quantity} × ${item.name}`), el('strong', '', money(item.lineTotal))); lines.append(line);
       }
@@ -348,8 +347,8 @@
       const total = el('div', 'order-summary');
       const totalRow = el('div'); totalRow.append(el('span', '', 'Total'), el('strong', '', money(order.total)));
       total.append(totalRow); lines.append(total);
-      if (order.note) lines.append(el('p', 'order-note', `Your note: ${order.note}`));
-      const updates = el('div'); updates.append(el('h3', 'order-section-title', 'Order updates'));
+      if (order.note) lines.append(el('p', 'order-note', `Note: ${order.note}`));
+      const updates = el('div'); updates.append(el('h3', 'order-section-title', 'Updates'));
       const events = el('ul', 'event-feed');
       for (const event of [...order.events].reverse()) {
         const item = el('li', 'event-item'); item.append(el('span', 'event-audience', event.audience === 'KITCHEN' ? 'Kitchen' : 'For you'),
@@ -358,16 +357,16 @@
       }
       updates.append(events); detail.append(lines, updates); card.append(detail);
       const actions = el('div', 'order-actions'); const receipts = el('div', 'receipt-links');
-      for (const [type, label] of [['customer', 'Your receipt'], ['kitchen', 'Kitchen ticket']]) {
+      for (const [type, label] of [['customer', 'Receipt'], ['kitchen', 'Kitchen ticket']]) {
         for (const format of ['html', 'text']) {
-          const link = el('a', 'receipt-link', `${label} · ${format.toUpperCase()}`);
+          const link = el('a', 'receipt-link', format === 'html' ? label : `${label} (text)`);
           link.href = `/api/orders/${encodeURIComponent(order.id)}/receipt?type=${type}&format=${format}`;
           link.target = '_blank'; link.rel = 'noopener noreferrer'; receipts.append(link);
         }
       }
       actions.append(receipts);
       if (current >= 0 && current < statuses.length - 1) {
-        const advance = el('button', 'advance-order button button-dark', 'Advance demo status →'); advance.type = 'button';
+        const advance = el('button', 'advance-order button button-dark', 'Next demo status'); advance.type = 'button';
         advance.addEventListener('click', async () => {
           advance.disabled = true; errorAt('#orders-error');
           try {
@@ -419,7 +418,7 @@
     } catch (error) {
       $('#menu-grid').replaceChildren(); $('#menu-count').textContent = 'Menu unavailable';
       errorAt('#menu-error', error.message);
-      const retry = el('button', 'button button-dark', 'Reload the menu'); retry.type = 'button'; retry.addEventListener('click', loadMenu); $('#menu-error').append(retry);
+      const retry = el('button', 'button button-dark', 'Try again'); retry.type = 'button'; retry.addEventListener('click', loadMenu); $('#menu-error').append(retry);
     } finally { $('#menu-grid').setAttribute('aria-busy', 'false'); }
   }
 

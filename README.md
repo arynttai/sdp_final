@@ -24,16 +24,14 @@ and `--demo` on pushes and pull requests.
 
 ## Website
 
-Aituria uses an espresso, ivory, and amber restaurant palette with a
-large cinematic hero and locally served DM Sans and system Georgia typography.
-The hero is a realistic 3D-style illustration generated with HeyGen GPT Image
-2.6 and displayed as a static image. `cinematic.js` adds CSS perspective and
-pointer parallax, with a motion toggle, reduced-motion support, and pauses
-while the hero is offscreen or the browser tab is hidden. It is an image-based
-treatment, not a WebGL model or generated video.
+Aituria uses warm ivory, dark green, locally served DM Sans, and system Georgia
+typography. A real food photograph accompanies a short introduction. The header,
+menu, basket, and order history use spacing and typography instead of decorative
+dividers, repeated slogans, or animated effects. The bronze Aituria emblem appears
+beside the name and in the browser icons.
 
 The menu uses real Unsplash food photographs, clear prices, straightforward
-category navigation, and a persistent basket. Hero artwork, menu photographs,
+category navigation, and a persistent basket. Photography, logo artwork,
 fonts, and interaction code are served locally.
 
 The customer can filter the menu, choose quantities and toppings, edit the

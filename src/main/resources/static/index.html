@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#171410">
+  <meta name="theme-color" content="#f7f5f0">
   <meta name="description" content="Aituria. Pizza, pasta and drinks. Dine in or take away.">
   <title>Aituria — Pizza & pasta</title>
   <link rel="icon" href="/images/favicon.png" type="image/png" sizes="64x64">
@@ -11,37 +11,23 @@
   <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
-  <script src="/cinematic.js" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="#menu" aria-label="Aituria home"><img class="brand-mark" src="/images/aituria-emblem.png" width="48" height="48" alt=""><span class="brand-name">Aituria<span class="brand-caption">RESTAURANT</span></span></a>
-    <div class="header-info"><strong>Restaurant</strong><span class="header-service">Dine-in & takeaway</span></div>
-    <nav aria-label="Main navigation"><a href="#menu" class="active">Menu</a><a href="#orders">Your orders <span id="order-count" class="nav-count" hidden>0</span></a></nav>
+    <a class="brand" href="#menu" aria-label="Aituria home"><img class="brand-mark" src="/images/aituria-emblem.png" width="48" height="48" alt=""><span class="brand-name">Aituria</span></a>
+    <nav aria-label="Main navigation"><a href="#menu" class="active">Menu</a><a href="#orders">Orders <span id="order-count" class="nav-count" hidden>0</span></a></nav>
     <a href="#your-order" class="basket-link" aria-label="Go to your basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16l-2 12H6L4 8Z M8 8l4-5 4 5"/></svg><span>Basket</span><b id="cart-count">0</b></a>
   </header>
   <main id="main">
     <div id="view-menu">
-      <section class="cinematic-hero" aria-labelledby="cinematic-title">
-        <div class="hero-media"><img id="hero-cinematic-image" src="/images/hero-cinematic.jpg" data-hero-fallback="/images/hero-pizza.jpg" alt="Pizza with tomato, mozzarella and basil" fetchpriority="high" decoding="async"></div>
-        <div class="hero-shade" aria-hidden="true"></div>
+      <section class="restaurant-hero page-width" aria-labelledby="hero-title">
         <div class="hero-content">
-          <p class="hero-kicker">AITURIA</p>
-          <h1 id="cinematic-title">Pizza & pasta.<br><span>Aituria.</span></h1>
+          <h1 id="hero-title">Pizza &<br> pasta.</h1>
           <p class="hero-description">Dine in or take away.</p>
-          <a class="hero-cta" href="#menu-list">Browse menu <span aria-hidden="true">↗</span></a>
+          <a class="hero-cta" href="#menu-list">View menu</a>
         </div>
-        <div class="hero-bottom">
-          <span class="hero-origin">DINE-IN & TAKEAWAY · PRICES IN KZT</span>
-          <a class="hero-scroll" href="#menu-list"><span aria-hidden="true">↓</span> View menu</a>
-          <button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause motion"><span class="motion-toggle-label">Pause motion</span></button>
-        </div>
-      </section>
-      <section class="benefits-bar page-width" aria-label="Ordering options">
-        <div class="benefit-item"><strong>Pizza, pasta & drinks</strong></div>
-        <div class="benefit-item"><strong>Up to 3 toppings</strong></div>
-        <div class="benefit-item"><strong>Dine-in & takeaway</strong></div>
+        <div class="hero-photo"><img src="/images/story.jpg" alt="Freshly baked pizza beside a wood-fired oven" width="1400" height="933" fetchpriority="high" decoding="async"></div>
       </section>
       <section class="menu-layout page-width" id="menu-list" aria-labelledby="menu-heading">
         <div class="menu-main">
@@ -52,18 +38,17 @@
           </div>
           <div id="menu-error" class="error-box" role="alert" hidden></div>
           <div id="menu-grid" class="menu-grid" aria-live="polite"><div class="loading-state"><span class="loading-ring"></span>Loading menu…</div></div>
-          <p class="menu-note">Prices in KZT. Up to 3 toppings on pizza and pasta.</p>
         </div>
         <div id="your-order" class="cart-anchor">
           <aside id="cart-panel" class="cart-panel" aria-labelledby="cart-heading">
             <div class="cart-heading"><h2 id="cart-heading">Your order</h2></div>
-            <div id="cart-empty" class="cart-empty"><div class="empty-plate" aria-hidden="true"><span></span></div><h3>Your basket is empty</h3><p>Add a dish to get started.</p><a href="#menu-list">Browse menu</a></div>
+            <div id="cart-empty" class="cart-empty"><p>Choose a dish from the menu.</p></div>
             <div id="cart-items"></div>
             <form id="checkout-form" hidden>
               <fieldset class="service-field"><legend>Order type</legend><div class="service-toggle"><label><input type="radio" name="fulfillment" value="DINE_IN"><span>Dine-in</span></label><label><input type="radio" name="fulfillment" value="TAKEAWAY" checked><span>Takeaway</span></label></div></fieldset>
-              <div class="customer-fields"><label for="customer-name">Your name<input id="customer-name" minlength="2" maxlength="60" autocomplete="given-name" required placeholder="Enter your name"></label><label for="table-number" id="table-field" hidden>Table<select id="table-number" aria-label="Table number"></select></label></div>
+              <div class="customer-fields"><label for="customer-name">Name<input id="customer-name" minlength="2" maxlength="60" autocomplete="given-name" required></label><label for="table-number" id="table-field" hidden>Table<select id="table-number" aria-label="Table number"></select></label></div>
               <label class="field-label" for="discount-code">Discount<select id="discount-code"><option value="NONE">No discount</option></select></label>
-              <label class="field-label" for="order-note">Kitchen note <span>optional</span><textarea id="order-note" maxlength="300" rows="2" placeholder="Add a preparation note"></textarea></label>
+              <label class="field-label" for="order-note">Kitchen note <span>optional</span><textarea id="order-note" maxlength="300" rows="2"></textarea></label>
               <div class="cart-totals"><div><span>Subtotal</span><span id="quote-subtotal">—</span></div><div><span>Discount</span><span id="quote-discount">—</span></div><div class="cart-total"><span>Total</span><strong id="quote-total">—</strong></div></div>
               <div id="checkout-error" class="error-box" role="alert" hidden></div>
               <button class="primary-button" id="place-order" type="submit" disabled>Place order</button>
@@ -74,8 +59,8 @@
       </section>
     </div>
     <section id="view-orders" class="orders-view page-width" hidden aria-labelledby="orders-heading">
-      <div class="orders-top"><div><h1 id="orders-heading">Your orders</h1><p>Order status and receipts.</p></div><button id="refresh-orders" class="outline-button" type="button">Refresh orders <span aria-hidden="true">↻</span></button></div>
-      <p class="session-note">Orders last until your session expires or the server restarts.</p>
+      <div class="orders-top"><h1 id="orders-heading">Your orders</h1><button id="refresh-orders" class="outline-button" type="button">Refresh</button></div>
+      <p class="session-note">Order history is temporary.</p>
       <div id="orders-error" class="error-box" role="alert" hidden></div><div id="orders-list" aria-live="polite"></div>
     </section>
   </main>
@@ -85,10 +70,10 @@
     <div class="dialog-visual"><img id="dialog-image" alt=""></div>
     <form id="customize-form" class="dialog-content">
       <span id="dialog-category" class="eyebrow"></span><h2 id="dialog-name"></h2><p id="dialog-description"></p>
-      <fieldset class="toppings-field"><legend>Extra toppings <span>Choose up to 3</span></legend><div id="topping-options"></div></fieldset>
+      <fieldset class="toppings-field"><legend>Toppings <span>Up to 3</span></legend><div id="topping-options"></div></fieldset>
       <div class="dialog-quantity-row"><span>Quantity</span><div class="quantity-stepper"><button id="dialog-minus" type="button" aria-label="Decrease quantity">−</button><input id="dialog-quantity" type="number" min="1" max="10" value="1" aria-label="Quantity" required><button id="dialog-plus" type="button" aria-label="Increase quantity">+</button></div></div>
       <div id="dialog-error" class="error-box" role="alert" hidden></div>
-      <button type="submit" id="add-to-cart" class="primary-button"><span>Add to order</span><strong id="dialog-total">—</strong></button>
+      <button type="submit" id="add-to-cart" class="primary-button"><span>Add to basket</span><strong id="dialog-total">—</strong></button>
     </form>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

@@ -11,13 +11,14 @@ the participants in the application flow. The implementation branch is
 - `f70398d` — Observer implementation and tests.
 - `2a12537` — Web integration, cinematic design, and documentation.
 
-These verified author commits exist locally on `feature/mukhammad-3d-interface`.
-Publication is pending: Git push returned 403 for the authenticated
-`Vertex-blip` account, and the GitHub connector returned 403, “Resource not
-accessible by integration.” No remote feature branch or pull request was
-created, and no published CI result is claimed. The Aituria branding update
-adds the custom A monogram and concise interface copy; its commit is identified
-by the message `feat(brand): introduce Aituria identity and simplify interface copy`.
+- `b577270` — Aituria identity and concise interface copy.
+- `0e48a73` — Sculpted bronze emblem and browser icons.
+
+These commits were published under `Vertex-blip` on
+`feature/mukhammad-3d-interface`. [PR #1](https://github.com/arynttai/sdp_final/pull/1)
+contains the integration; the GitHub Actions run for `0e48a73` passed.
+The interface cleanup is tracked in [PR #2](https://github.com/arynttai/sdp_final/pull/2)
+on `feature/mukhammad-refine-interface`, preserving the original dark hero artwork.
 
 ## Decorator
 
@@ -159,25 +160,33 @@ and adds a complete six-pattern walkthrough without starting a server.
 
 ## Design implementation
 
-`static/index.html`, `styles.css`, and `app.js` implement a cinematic restaurant
-interface in espresso, ivory, and amber, using the Aituria identity
-and locally served DM Sans and system Georgia fonts. A large realistic 3D-style
-hero illustration introduces the menu; real Unsplash food photographs, clear
-prices, straightforward categories, and a persistent basket support ordering.
+`static/index.html`, `styles.css`, and `app.js` implement a restaurant interface
+with dark espresso backgrounds across the hero, menu, basket, dialogs, and orders,
+plus bronze accents and clear action buttons.
+The original floating-pizza artwork, supplied again by the user, fills the hero.
+The bronze Aituria identity uses locally served Bricolage Grotesque and DM Sans
+with system Georgia. Food photographs, clear prices, categories, and a persistent
+basket support ordering. Russian interface labels and spaced KZT prices are
+localized in the browser without changing the menu IDs or API data. Product
+dialogs place the base price, toppings, quantity, and total beside a large photo.
+The six menu photographs use 1600-pixel-wide variants of their original sources.
 The basket and order views use server-provided options, prices, totals, status
 sequence, and notifications.
 
-`images/hero-cinematic.jpg` was generated with HeyGen GPT Image 2.6 on
-2026-11-13. It is static artwork. `cinematic.js` applies CSS perspective and
-pointer parallax to that image and supplies an explicit motion toggle,
-reduced-motion handling, and offscreen/hidden-tab safeguards. The delivered
-hero is not a WebGL model or a generated video. The attempted Higgsfield
-generation was unavailable on the Basic plan, and the HeyGen video attempt
-returned an allowance error (402); neither attempt supplied a final asset.
-The successful image generation is identified in the asset credits.
+The hero uses the original artwork as a static image with a responsive crop.
+Repeated restaurant captions, slogans, ornamental rules, motion controls, and
+duplicate status labels were removed. Orders use a compact list with one current
+status, item prices, total, and a customer receipt. Native disclosures contain
+customer history; nested demo controls preserve kitchen notifications,
+all remaining receipt formats, and the demo status action. Expanded sections
+survive refresh and status changes, and keyboard focus follows the status action.
+Functional form labels, price information, and the checkout demo notice remain.
+The stylesheet defines one responsive layout. HTML receipt documents use the
+same dark palette through the web wrapper; the Bridge renderer and its document
+content retain their existing contracts. Printed receipts use light paper colors.
 
 Menu photography is illustrative; its source URLs and Unsplash license reference,
-along with the separate generated-hero provenance, are recorded in
+along with the generated hero and logo artwork's provenance, are recorded in
 [`images/CREDITS.txt`](../src/main/resources/static/images/CREDITS.txt).
 Font families originate from Google Fonts and are served as local font files,
 with their upstream SIL Open Font Licenses included for
@@ -233,10 +242,19 @@ order; a second session could not see it. Network-error recovery passed.
 Fresh-page checks found no JavaScript errors or failed resources, and neither
 layout overflowed horizontally.
 
+The final dark interface also passed checks at 320, 768, and 1024 pixels.
+Russian labels and prices, image activation, modal base prices, dark checkout
+fields and HTML receipts, and the absence of duplicate discount percentages
+were verified. Order disclosures retained their state through refresh and
+status changes, with keyboard focus preserved; multiple orders and long
+names/notes wrapped without overflow.
+
 Screenshots: [desktop menu](screenshots/desktop-menu.png),
 [mobile menu](screenshots/mobile-menu.png),
 [desktop order](screenshots/desktop-orders.png), and
-[mobile order](screenshots/mobile-orders.png).
+[mobile order](screenshots/mobile-orders.png),
+[desktop dish options](screenshots/desktop-dialog.png), and
+[mobile dish options](screenshots/mobile-dialog.png).
 The team PDF/ZIP/Moodle submissions and deployment are separate steps; this
 document does not claim they have happened.
 

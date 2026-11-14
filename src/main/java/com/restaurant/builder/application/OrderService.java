@@ -95,7 +95,7 @@ public final class OrderService {
             default -> throw new IllegalArgumentException("Receipt type must be customer or kitchen");
         };
         String body = document.render(stored.order(), stored.pricing());
-        if (format.equals("html")) body = "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Hearth &amp; Table receipt</title><style>body{max-width:700px;margin:4rem auto;padding:0 24px;font:16px/1.6 system-ui;color:#28211e}h1{font-size:32px}li{margin:.6rem 0}</style></head><body>" + body + "</body></html>";
+        if (format.equals("html")) body = "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Aituria — Receipt</title><style>html{color-scheme:dark;background:#171410;color:#f4ede3}body{max-width:700px;margin:3rem auto;padding:0 24px;font:15px/1.6 system-ui}h1{font-size:26px;font-weight:600;margin-bottom:24px}li{margin:.6rem 0}p{overflow-wrap:anywhere}@media print{html{color-scheme:light;background:white;color:black}body{margin:0}}</style></head><body>" + body + "</body></html>";
         return new Receipt(body, format.equals("html") ? "text/html;charset=UTF-8" : "text/plain;charset=UTF-8");
     }
 

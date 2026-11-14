@@ -24,23 +24,27 @@ and `--demo` on pushes and pull requests.
 
 ## Website
 
-Aituria uses an espresso, ivory, and amber restaurant palette with a
-large cinematic hero and locally served DM Sans and system Georgia typography.
-The hero is a realistic 3D-style illustration generated with HeyGen GPT Image
-2.6 and displayed as a static image. `cinematic.js` adds CSS perspective and
-pointer parallax, with a motion toggle, reduced-motion support, and pauses
-while the hero is offscreen or the browser tab is hidden. It is an image-based
-treatment, not a WebGL model or generated video.
+Aituria uses dark espresso backgrounds throughout the hero, menu, basket,
+dish options, order history, and HTML receipts, with bronze action buttons.
+The original floating-pizza artwork fills the hero. Product dialogs show the
+base price, optional toppings, quantity, and quoted total together. Russian
+interface labels and spaced KZT prices keep the ordering flow short.
+The bronze Aituria emblem appears beside the name and in the browser icons.
+Decorative dividers, repeated slogans, and motion controls are omitted.
 
 The menu uses real Unsplash food photographs, clear prices, straightforward
-category navigation, and a persistent basket. Hero artwork, menu photographs,
+category navigation, and a persistent basket. The six menu photographs are
+served at 1600 pixels wide for the larger product dialogs. Photography, logo artwork,
 fonts, and interaction code are served locally.
 
 The customer can filter the menu, choose quantities and toppings, edit the
 basket, select dine-in or takeaway and a discount, obtain a server quote,
-and place an order. The orders view displays Java Observer notifications and
-offers an explicitly labelled demo status advance. Customer and kitchen
-documents use Akmaral's Bridge in HTML or text. API pricing remains authoritative.
+and place an order. Each order shows its current status, items, total, and receipt.
+The order details disclosure contains customer history from Java Observer notifications;
+its demo controls disclosure provides kitchen history, the remaining document
+formats, and an explicitly labelled status advance. Customer and kitchen documents
+use Akmaral's Bridge in HTML or text. Russian names and messages are presentation
+labels; API data, document content, and pricing remain authoritative.
 
 See [Mukhammad's implementation and verification notes](docs/MUKHAMMAD.md).
 Image sources are recorded in

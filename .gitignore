@@ -5,3 +5,5 @@ target/
 .env
 output/submission/*.zip
 tmp/
+__pycache__/
+*.pyc

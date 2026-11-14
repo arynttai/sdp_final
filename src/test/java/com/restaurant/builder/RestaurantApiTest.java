@@ -182,6 +182,42 @@ class RestaurantApiTest {
         mvc.perform(post("/api/orders").session(session).contentType(MediaType.APPLICATION_JSON).content(request().toString()))
             .andExpect(status().isConflict());
     }
+    @Test void numericEnumsAreRejectedWithoutCreatingOrAdvancingOrders() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        String id = place(request(), session).get("id").asText();
+        for (int ordinal = 0; ordinal < 2; ordinal++) {
+            ObjectNode request = request().put("fulfillment", ordinal);
+            if (ordinal == 0) request.put("tableNumber", 1);
+            for (String endpoint : List.of("/api/orders/quote", "/api/orders")) {
+                mvc.perform(post(endpoint).session(session).contentType(MediaType.APPLICATION_JSON).content(request.toString()))
+                    .andExpect(status().isBadRequest());
+            }
+        }
+        for (int ordinal = 0; ordinal < 4; ordinal++) {
+            mvc.perform(post("/api/orders/" + id + "/status").session(session).contentType(MediaType.APPLICATION_JSON)
+                .content(json.createObjectNode().put("status", ordinal).toString()))
+                .andExpect(status().isBadRequest());
+        }
+        mvc.perform(get("/api/orders").session(session)).andExpect(jsonPath("$.length()").value(1));
+        mvc.perform(get("/api/orders/" + id).session(session))
+            .andExpect(jsonPath("$.status").value("PLACED")).andExpect(jsonPath("$.events.length()").value(2));
+    }
+    @Test void validationMessagesRemainEnglishForRussianBrowserLocale() throws Exception {
+        ObjectNode belowMinimum = request();
+        ((ObjectNode) belowMinimum.at("/items/0")).put("quantity", 0);
+        ObjectNode aboveMaximum = request();
+        ((ObjectNode) aboveMaximum.at("/items/0")).put("quantity", 11);
+        List<ObjectNode> invalidRequests = List.of(request().putNull("fulfillment"),
+            request().put("customerName", "  "), request().put("note", "x".repeat(301)), belowMinimum, aboveMaximum);
+        List<String> messages = List.of("fulfillment: must not be null", "customerName: must not be blank",
+            "note: size must be between 0 and 300", "items[0].quantity: must be greater than or equal to 1",
+            "items[0].quantity: must be less than or equal to 10");
+        for (int i = 0; i < invalidRequests.size(); i++) {
+            mvc.perform(post("/api/orders").header("Accept-Language", "ru-RU,ru;q=0.9")
+                .contentType(MediaType.APPLICATION_JSON).content(invalidRequests.get(i).toString()))
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").value(messages.get(i)));
+        }
+    }
     @Test void concurrentRetriesPublishOnePlacement() throws Exception {
         OrderService service = new OrderService();
         OrderBook book = new OrderBook();

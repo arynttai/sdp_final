@@ -212,7 +212,7 @@ been checked; the current verification status is stated below.
 
 ## Verification status
 
-The integration run of `./mvnw verify` passed **63 tests**, with zero failures,
+The integration run of `./mvnw verify` passed **65 tests**, with zero failures,
 errors, or skips. Existing team tests were retained. New coverage includes:
 
 - `decorator.ToppingDecoratorTest`: composition, wrapping order, metadata,
@@ -258,7 +258,7 @@ Screenshots: [desktop menu](screenshots/desktop-menu.png),
 [mobile dish options](screenshots/mobile-dialog.png). Light-theme captures are
 in [screenshots/light](screenshots/light). Theme persistence, cross-tab changes,
 and unavailable browser storage were checked without losing checkout data.
-The [final report](../output/pdf/ITALIANO-Final-Report.pdf) includes all six
+The [final report](../output/pdf/ITALIANO-Report.pdf) includes all six
 patterns and the integration UML. Individual Moodle submissions and the oral
 defense remain student actions.
 

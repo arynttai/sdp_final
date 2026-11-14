@@ -1,6 +1,11 @@
 # ITALIANO — Restaurant Ordering System
 
-Team project in Java 21 and Spring Boot with six integrated design patterns:
+Repository: https://github.com/arynttai/sdp_final
+
+Website: https://hearth-table.178.62.244.88.sslip.io/
+
+Built together by **Anuar, Akmaral, and Mukhammad** for Software Design Patterns.
+The project uses Java 21 and Spring Boot with six integrated design patterns:
 Anuar's **Builder** and **Factory Method**, Akmaral's **Strategy** and **Bridge**,
 and Mukhammad's **Observer** and **Decorator**. The same application serves the
 restaurant website and its Java API. Orders are a session-scoped, in-memory
@@ -45,7 +50,8 @@ formats, and an explicitly labelled status advance. Customer and kitchen documen
 use Akmaral's Bridge in HTML or text. API data, document content, and pricing
 remain authoritative. Theme changes preserve the basket and form inputs.
 
-See [Mukhammad's implementation and verification notes](docs/MUKHAMMAD.md).
+Implementation notes: [Anuar](docs/ANUAR.md), [Akmaral](docs/AKMARAL.md),
+and [Mukhammad](docs/MUKHAMMAD.md).
 Image sources are recorded in
 [`images/CREDITS.txt`](src/main/resources/static/images/CREDITS.txt). Font
 licenses are included alongside the local font files:
@@ -54,7 +60,7 @@ and [`DM Sans`](src/main/resources/static/fonts/OFL-DMSans.txt).
 
 ## Final submission
 
-The [final report](output/pdf/ITALIANO-Final-Report.pdf) explains all six patterns,
+The [final report](output/pdf/ITALIANO-Report.pdf) explains all six patterns,
 their integration, UML, code examples, contributions, verification, and defense
 topics. Its editable generator and diagram sources are in `docs/report/`.
 The Java package root contains only the six pattern packages and `Main.java`.
@@ -202,11 +208,11 @@ See [Akmaral's integration notes](docs/AKMARAL.md#integration-for-mukhammad) and
 Each member must use their own GitHub-linked commit email and commit real implementation changes. Merge their commits into `main` without replacing authors. GitHub's commit history shows authors directly; profile graphs and Contributors may update later because GitHub caches them.
 
 The current implementation covers **two creational, two behavioral, and two
-structural patterns**. `./mvnw verify` passed 63 tests in the current integration
+structural patterns**. `./mvnw verify` passed 65 tests in the current integration
 run, including domain, HTTP, idempotency, session-isolation, and package-layout
 checks. Desktop and mobile browser checks passed for the complete ordering flow,
 keyboard dialogs, receipts, and error recovery; see [Mukhammad's notes](docs/MUKHAMMAD.md).
-The reviewed English screenshots, seven UML diagrams, report generator, and
+The reviewed English screenshots, six UML class diagrams, report generator, and
 combined PDF report are included. Export a source archive from the final commit
 with `git archive --format=zip --prefix=ITALIANO/ --output=ITALIANO-source.zip HEAD`.
 Each student still needs to submit the files and repository link to Moodle and

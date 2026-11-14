@@ -1,6 +1,6 @@
 # Akmaral: Strategy and Bridge
 
-These two patterns extend Anuar's Factory Method and Builder. A factory creates meals, the builder assembles an order, Strategy calculates its price, and Bridge renders a receipt. The implementation is plain Java 21 with no additional dependencies.
+Akmaral implemented Strategy and Bridge as part of the three-person project. These patterns extend Anuar's Factory Method and Builder: a factory creates meals, the builder assembles an order, Strategy calculates its price, and Bridge renders a receipt. The pattern implementations use plain Java 21; the integrated website uses Spring Boot.
 
 ## Strategy: choosing a discount
 
@@ -87,9 +87,9 @@ classDiagram
     ReceiptRenderer ..> ReceiptContent : reads
 ```
 
-## Integration for Mukhammad
+## Team integration
 
-Build the order with the existing `MenuCatalog`, `OrderLine` and `Order.Builder`. Choose one strategy and calculate pricing for that same order:
+The team's `OrderService` builds an order with `MenuCatalog`, `OrderLine` and `Order.Builder`, then calculates pricing for that same order. The Strategy and Bridge contracts can also be used directly:
 
 ```java
 import com.restaurant.bridge.abstraction.CustomerReceipt;
@@ -107,9 +107,11 @@ String text = new KitchenTicket(new TextReceiptRenderer()).render(order, pricing
 BigDecimal amountToPay = pricing.total();
 ```
 
-`NoDiscount` and `PickupDiscount` are in the same `strategy.concrete` package. Pass pricing calculated from the order being rendered; `Pricing` does not carry an order ID. The HTML result is a fragment, so the future page supplies its layout and styles.
+`NoDiscount` and `PickupDiscount` are in the same `strategy.concrete` package. Pass pricing calculated from the order being rendered; `Pricing` does not carry an order ID. The HTML renderer returns a fragment, which the receipt endpoint wraps in a complete page with the selected light or dark theme.
 
-For Decorator integration, wrap a `Meal` before adding it to `OrderLine`. `price()` should include the extras; topping labels alone do not change the price. Strategy then uses the resulting order subtotal, and receipts read each line through the existing `Meal` interface. Observer can use the receipt API when reacting to an order event. No observer, decorator or web server is implemented here.
+Mukhammad's Decorator wraps a `Meal` before it is added to `OrderLine`. Its `price()` includes the extras; topping labels alone do not change the price. Strategy uses the resulting order subtotal, and receipts read each line through the `Meal` interface. Observer records customer and kitchen status notifications for the stored order. `OrderService` coordinates all six patterns in the completed web application.
+
+Akmaral's original contribution covers Strategy and Bridge. See [Anuar's notes](ANUAR.md) for Factory Method and Builder, and [Mukhammad's notes](MUKHAMMAD.md) for Decorator, Observer and website integration.
 
 ## Design choices
 
@@ -122,6 +124,6 @@ For Decorator integration, wrap a `Meal` before adding it to `OrderLine`. `price
 
 ## Verification
 
-Run `./mvnw verify` (Windows: `mvnw.cmd verify`) and `java -jar target/hearth-and-table-1.0.0.jar` with JDK 21.
+Run `./mvnw verify` (Windows: `.\mvnw.cmd verify`) and `java -jar target/hearth-and-table-1.0.0.jar --demo` with JDK 21. Run the JAR without `--demo` to start the website.
 
-`PricingCalculatorTest` covers every discount, eligibility, rounding, invalid amounts, one strategy call and unchanged order totals. `ReceiptTest` covers all four Bridge combinations, the discounted customer total, kitchen details, HTML escaping and immutable receipt data. Both suites use the existing Factory and Builder. `Main` preserves Anuar's demonstration and then shows all three strategies and all four receipt combinations.
+`PricingCalculatorTest` covers every discount, eligibility, rounding, invalid amounts, one strategy call and unchanged order totals. `ReceiptTest` covers all four Bridge combinations, the discounted customer total, kitchen details, HTML escaping and immutable receipt data. Both suites use Factory Method and Builder. `Main --demo` includes Anuar's original example, all three strategies, all four receipt combinations and the integrated six-pattern walkthrough.

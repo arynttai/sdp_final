@@ -1,7 +1,3 @@
-Command: java -jar target/hearth-and-table-1.0.0.jar --demo
-Exit code: 0
-Verified: 14 November 2026
-
 RESTAURANT ORDERING SYSTEM — Anuar: Factory Method + Builder
 Factory created Pizza: Margherita (2000.00 KZT)
 Factory created Pasta: Chicken Alfredo (2800.00 KZT)
@@ -26,7 +22,7 @@ Akmaral: Strategy discounts for the takeaway order
 
 Akmaral: Bridge receipts for the dine-in order with STUDENT discount
 Customer receipt
-Order: d4c8d0bd-1c61-43ed-8613-261cf5f2ff61
+Order: b4c3ef57-1442-4617-96be-b28789b134f8
 Customer: Anuar
 Service: DINE_IN
 Table: 4
@@ -38,7 +34,7 @@ Discount: 680.00 KZT
 Total: 6120.00 KZT
 
 Kitchen ticket
-Order: d4c8d0bd-1c61-43ed-8613-261cf5f2ff61
+Order: b4c3ef57-1442-4617-96be-b28789b134f8
 Customer: Anuar
 Service: DINE_IN
 Table: 4
@@ -48,7 +44,7 @@ Note: Please serve the pasta first
 
 <section class="receipt">
 <h1>Customer receipt</h1>
-<p>Order: d4c8d0bd-1c61-43ed-8613-261cf5f2ff61</p>
+<p>Order: b4c3ef57-1442-4617-96be-b28789b134f8</p>
 <p>Customer: Anuar</p>
 <p>Service: DINE_IN</p>
 <p>Table: 4</p>
@@ -64,7 +60,7 @@ Note: Please serve the pasta first
 
 <section class="receipt">
 <h1>Kitchen ticket</h1>
-<p>Order: d4c8d0bd-1c61-43ed-8613-261cf5f2ff61</p>
+<p>Order: b4c3ef57-1442-4617-96be-b28789b134f8</p>
 <p>Customer: Anuar</p>
 <p>Service: DINE_IN</p>
 <p>Table: 4</p>
@@ -87,7 +83,7 @@ KITCHEN / READY: Ready for service.
 CUSTOMER / COMPLETED: Order completed.
 KITCHEN / COMPLETED: Order closed.
 Customer receipt
-Order: 454dac88-7617-411b-bd3c-105c66aa90ec
+Order: 02f2ffc9-9fa0-4e01-b63a-bd7ec4eb0078
 Customer: Demo guest
 Service: TAKEAWAY
 Note: Please slice for sharing

@@ -991,15 +991,16 @@ body{background:var(--paper)}
 }
 
 /* Aituria wordmark and custom restaurant emblem. */
-.brand-mark{width:44px;height:44px;object-fit:contain;flex-shrink:0}
+.brand-mark{width:48px;height:48px;object-fit:contain;flex-shrink:0}
 .brand>span.brand-name{font-family:Georgia,'Times New Roman',serif;font-size:32px;font-weight:400;letter-spacing:-.8px}
 .brand-name .brand-caption{font-family:var(--sans);font-size:6px;letter-spacing:3px;margin-top:8px}
-.footer-brand{font-family:Georgia,'Times New Roman',serif;font-size:30px;font-weight:400}
+.footer-brand{display:inline-flex;align-items:center;gap:12px;font-family:Georgia,'Times New Roman',serif;font-size:30px;font-weight:400}
+.footer-brand img{width:36px;height:36px;object-fit:contain}
 .benefits-bar{justify-content:space-around;padding:24px 0}
 .benefit-item{justify-content:center}
 .benefit-item strong{font-weight:500;letter-spacing:.1px}
 
-@media(max-width:760px){.brand-mark{width:36px;height:38px}
+@media(max-width:760px){.brand-mark{width:38px;height:38px}
 .brand>span.brand-name{font-size:29px}
 .brand-name .brand-caption{font-size:5px;letter-spacing:2.5px;margin-top:6px}
 .benefits-bar{gap:8px;padding:21px 0}

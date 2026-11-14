@@ -1,7 +1,10 @@
 Aituria emblem
-aituria-mark.png
-  Created with OpenAI image generation on 2026-11-13 for this website.
-  Transparent A monogram with an oven arch and flame detail.
+aituria-emblem.png, favicon.png, apple-touch-icon.png
+  Created with OpenAI's built-in image generator on 2026-11-14 for this website.
+  Sculptural champagne-bronze ribbon A with an oven-arch opening and transparent background.
+  Replaces the previous serif/flame emblem. Higgsfield generation was unavailable
+  on the selected account; the user approved this alternative generator.
+  Master artwork and generation brief: docs/brand/ in the repository.
 
 Generated hero artwork
 hero-cinematic.jpg

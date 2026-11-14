@@ -6,7 +6,8 @@
   <meta name="theme-color" content="#171410">
   <meta name="description" content="Aituria. Pizza, pasta and drinks. Dine in or take away.">
   <title>Aituria — Pizza & pasta</title>
-  <link rel="icon" href="/images/aituria-mark.png" type="image/png">
+  <link rel="icon" href="/images/favicon.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
   <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
@@ -15,7 +16,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="#menu" aria-label="Aituria home"><img class="brand-mark" src="/images/aituria-mark.png" alt=""><span class="brand-name">Aituria<span class="brand-caption">RESTAURANT</span></span></a>
+    <a class="brand" href="#menu" aria-label="Aituria home"><img class="brand-mark" src="/images/aituria-emblem.png" width="48" height="48" alt=""><span class="brand-name">Aituria<span class="brand-caption">RESTAURANT</span></span></a>
     <div class="header-info"><strong>Restaurant</strong><span class="header-service">Dine-in & takeaway</span></div>
     <nav aria-label="Main navigation"><a href="#menu" class="active">Menu</a><a href="#orders">Your orders <span id="order-count" class="nav-count" hidden>0</span></a></nav>
     <a href="#your-order" class="basket-link" aria-label="Go to your basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16l-2 12H6L4 8Z M8 8l4-5 4 5"/></svg><span>Basket</span><b id="cart-count">0</b></a>
@@ -78,7 +79,7 @@
       <div id="orders-error" class="error-box" role="alert" hidden></div><div id="orders-list" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="site-footer page-width"><a class="footer-brand" href="#menu">Aituria</a></footer>
+  <footer class="site-footer page-width"><a class="footer-brand" href="#menu" aria-label="Aituria home"><img src="/images/aituria-emblem.png" width="36" height="36" alt="" loading="lazy">Aituria</a></footer>
   <dialog id="customize-dialog" class="customize-dialog" aria-labelledby="dialog-name">
     <button type="button" id="close-dialog" class="close-dialog" aria-label="Close dish options">×</button>
     <div class="dialog-visual"><img id="dialog-image" alt=""></div>

@@ -13,4 +13,4 @@ jobs:
           java-version: '21'
           cache: maven
       - run: ./mvnw --batch-mode verify
-      - run: java -jar target/hearth-and-table-1.0.0.jar
+      - run: java -jar target/hearth-and-table-1.0.0.jar --demo

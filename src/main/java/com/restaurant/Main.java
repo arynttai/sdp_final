@@ -17,12 +17,29 @@ import com.restaurant.strategy.concrete.StudentDiscount;
 import com.restaurant.strategy.context.Pricing;
 import com.restaurant.strategy.context.PricingCalculator;
 import java.math.BigDecimal;
+import com.restaurant.builder.application.OrderService;
+import com.restaurant.builder.application.dto.ItemRequest;
+import com.restaurant.builder.application.dto.OrderRequest;
+import com.restaurant.builder.repository.OrderBook;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/** Demonstrates the team's patterns using the same menu and orders. */
-public final class Main {
-    private Main() { }
-
+/** One entry point: the website normally, the six-pattern walkthrough with --demo. */
+@SpringBootApplication(proxyBeanMethods = false)
+public class Main {
     public static void main(String[] args) {
+        if (Arrays.asList(args).contains("--demo")) {
+            runOriginalDemo();
+            runIntegratedDemo();
+        } else {
+            SpringApplication.run(Main.class, args);
+        }
+    }
+
+    private static void runOriginalDemo() {
         MenuCatalog menu = new MenuCatalog();
         Meal pizza = menu.create("margherita");
         Meal pasta = menu.create("alfredo");
@@ -69,6 +86,25 @@ public final class Main {
         Pricing studentPricing = calculator.calculate(dineIn, new StudentDiscount());
         System.out.println("\nAkmaral: Bridge receipts for the dine-in order with STUDENT discount");
         printReceipts(dineIn, studentPricing);
+    }
+
+    private static void runIntegratedDemo() {
+        OrderService service = new OrderService();
+        OrderBook book = new OrderBook();
+        OrderRequest request = new OrderRequest(List.of(new ItemRequest("margherita", 2, List.of("cheese"))),
+            Fulfillment.TAKEAWAY, "STUDENT", "Demo guest", null, "Please slice for sharing", UUID.randomUUID());
+        var order = service.place(request, book);
+        if (order.subtotal().compareTo(new BigDecimal("4700.00")) != 0
+                || order.total().compareTo(new BigDecimal("4230.00")) != 0) {
+            throw new IllegalStateException("Decorator and Strategy totals disagree");
+        }
+        System.out.println("\nMukhammad: Decorator and Observer integrated into the order flow");
+        System.out.println(order.items().getFirst().name() + " x 2: " + order.total() + " KZT after STUDENT");
+        for (int step = 0; step < 3; step++) order = service.advance(order.id(), book);
+        order.events().forEach(event -> System.out.println(event.audience() + " / " + event.status() + ": " + event.message()));
+        if (order.events().size() != 8) throw new IllegalStateException("Observer notifications missing");
+        System.out.println(service.receipt(order.id(), "text", "customer", book).body());
+        System.out.println("PASS — all six patterns exercised successfully.");
     }
 
     private static void printReceipts(Order order, Pricing pricing) {

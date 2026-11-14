@@ -17,6 +17,8 @@ the participants in the application flow. The implementation branch is
 These commits were published under `Vertex-blip` on
 `feature/mukhammad-3d-interface`. [PR #1](https://github.com/arynttai/sdp_final/pull/1)
 contains the integration; the GitHub Actions run for `0e48a73` passed.
+The interface cleanup is tracked in [PR #2](https://github.com/arynttai/sdp_final/pull/2)
+on `feature/mukhammad-refine-interface`, preserving the original dark hero artwork.
 
 ## Decorator
 
@@ -159,20 +161,22 @@ and adds a complete six-pattern walkthrough without starting a server.
 ## Design implementation
 
 `static/index.html`, `styles.css`, and `app.js` implement a restaurant interface
-in warm ivory and dark green, using the bronze Aituria identity and locally served
-DM Sans and system Georgia fonts. A real photograph of pizza by an oven introduces
-the menu. Food photographs, clear prices, categories, and a persistent basket support ordering.
+with a dark espresso header and hero, bronze accents, and a warm ivory menu.
+The original floating-pizza artwork, supplied again by the user, fills the hero.
+The bronze Aituria identity uses locally served Bricolage Grotesque and DM Sans
+with system Georgia. Food photographs, clear prices, categories, and a persistent
+basket support ordering.
 The basket and order views use server-provided options, prices, totals, status
 sequence, and notifications.
 
-The earlier generated floating-pizza hero and its animation script were removed.
-Repeated restaurant captions, slogans, ornamental rules, and duplicate status
-labels were also removed. Functional form labels, price information, order
-progress, and the demo-only notice remain. The stylesheet defines one coherent
-responsive layout rather than accumulating overrides for previous designs.
+The hero uses the original artwork as a static image with a responsive crop.
+Repeated restaurant captions, slogans, ornamental rules, motion controls, and
+duplicate status labels were removed. Functional form labels, price information,
+order progress, and the demo-only notice remain. The stylesheet defines one
+responsive layout.
 
 Menu photography is illustrative; its source URLs and Unsplash license reference,
-along with the generated logo's provenance, are recorded in
+along with the generated hero and logo artwork's provenance, are recorded in
 [`images/CREDITS.txt`](../src/main/resources/static/images/CREDITS.txt).
 Font families originate from Google Fonts and are served as local font files,
 with their upstream SIL Open Font Licenses included for

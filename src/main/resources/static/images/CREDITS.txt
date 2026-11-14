@@ -6,11 +6,13 @@ aituria-emblem.png, favicon.png, apple-touch-icon.png
   on the selected account; the user approved this alternative generator.
   Master artwork and generation brief: docs/brand/ in the repository.
 
-Hero photograph
-story.jpg
-  Real Unsplash photograph, now used for the static restaurant hero.
-  Original URL and photographer credits are listed below.
-  The previous generated floating-pizza artwork was retired on 2026-11-14.
+Hero artwork
+hero-cinematic.jpg
+  Original floating-pizza artwork, supplied again by the user on 2026-11-14
+  as download.jpg and restored without image edits (1920 x 1088).
+  This is the same artwork included in the original cinematic website.
+  Originally generated with HeyGen GPT Image 2.6 on 2026-11-13.
+  Used as a static hero image with responsive cropping.
 
 Real food photography from Unsplash. Photos are illustrative restaurant imagery.
 License: https://unsplash.com/license

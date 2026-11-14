@@ -24,11 +24,12 @@ and `--demo` on pushes and pull requests.
 
 ## Website
 
-Aituria uses warm ivory, dark green, locally served DM Sans, and system Georgia
-typography. A real food photograph accompanies a short introduction. The header,
-menu, basket, and order history use spacing and typography instead of decorative
-dividers, repeated slogans, or animated effects. The bronze Aituria emblem appears
-beside the name and in the browser icons.
+Aituria uses a dark espresso header and hero, bronze accents, and a warm ivory
+menu. The original floating-pizza artwork fills the hero, with a short heading
+and a direct menu link. Locally served Bricolage Grotesque and DM Sans accompany
+system Georgia typography. The bronze Aituria emblem appears beside the name
+and in the browser icons. Decorative dividers, repeated slogans, and motion
+controls are omitted.
 
 The menu uses real Unsplash food photographs, clear prices, straightforward
 category navigation, and a persistent basket. Photography, logo artwork,

@@ -1,4 +1,17 @@
-# Aituria emblem
+# ITALIANO identity
+
+The current site uses two user-supplied transparent wordmarks:
+
+- `../../src/main/resources/static/images/italiano-logo-light.png`: red lettering for the light theme.
+- `../../src/main/resources/static/images/italiano-logo-dark.png`: cream lettering for the dark theme.
+
+Both original 2172 x 724 PNG files are stored unchanged. Header and footer layout
+crops their transparent margins through CSS. The dark image includes its original
+soft halo. `italiano-icon.svg` is a small pizza-slice browser icon in the same colors.
+The site name and all interface copy are English. Theme selection is stored under
+`italiano-theme`; switching themes preserves cart and checkout data.
+
+## Previous Aituria emblem (archive)
 
 The November 14, 2026 emblem replaces the earlier serif A and flame. A substantial
 folded bronze ribbon forms the A, with an arch-shaped opening suggesting an oven.
@@ -24,7 +37,8 @@ resampling. The emblem appears in the header and footer beside accessible live t
 `mvnw.cmd clean verify` passed with JDK 21: 61 tests, no failures, errors, or skips.
 Chromium checks at 1440px and 390px confirmed the header emblem loads at 48px and
 38px respectively, with no horizontal overflow or JavaScript/resource errors.
-The desktop and mobile menu screenshots in `docs/screenshots/` show the new logo.
+These results describe the previous brand implementation. Current screenshots
+in `docs/screenshots/` show ITALIANO instead.
 
 ## Generation prompt
 

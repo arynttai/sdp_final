@@ -1,0 +1,20 @@
+@startuml
+skinparam classAttributeIconSize 0
+abstract class ReceiptDocument {
+  -renderer: ReceiptRenderer
++render(Order,Pricing): String
+#content(Order,Pricing): ReceiptContent
+}
+class CustomerReceipt
+class KitchenTicket
+interface ReceiptRenderer
+class TextReceiptRenderer
+class HtmlReceiptRenderer
+class ReceiptContent <<record>>
+ReceiptDocument <|-- CustomerReceipt
+ReceiptDocument <|-- KitchenTicket
+ReceiptDocument o-- ReceiptRenderer
+ReceiptRenderer <|.. TextReceiptRenderer
+ReceiptRenderer <|.. HtmlReceiptRenderer
+ReceiptDocument ..> ReceiptContent
+@enduml

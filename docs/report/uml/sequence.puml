@@ -1,0 +1,30 @@
+@startuml
+skinparam classAttributeIconSize 0
+actor Browser
+participant OrderService
+participant MenuCatalog
+participant ToppingCatalog
+participant "Order.Builder" as Builder
+participant PricingCalculator
+participant OrderProgress
+participant ReceiptDocument
+Browser -> OrderService: place(request)
+OrderService -> MenuCatalog: create(menuItemId)
+MenuCatalog --> OrderService: Meal
+OrderService -> ToppingCatalog: decorate(Meal, toppingIds)
+ToppingCatalog --> OrderService: decorated Meal
+OrderService -> Builder: addItem(OrderLine), build()
+Builder --> OrderService: immutable Order
+OrderService -> PricingCalculator: calculate(Order, DiscountStrategy)
+PricingCalculator --> OrderService: Pricing
+OrderService -> OrderProgress: subscribe(CustomerObserver), subscribe(KitchenObserver)
+OrderService -> OrderProgress: announce(): PLACED notifications
+OrderService --> Browser: OrderView
+Browser -> OrderService: advance(orderId) [demo]
+OrderService -> OrderProgress: advance(): notify next status
+OrderService --> Browser: updated OrderView
+Browser -> OrderService: receipt(orderId, format, type)
+OrderService -> ReceiptDocument: render(Order,Pricing)
+ReceiptDocument --> OrderService: formatted document
+OrderService --> Browser: receipt response
+@enduml

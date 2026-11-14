@@ -1,4 +1,4 @@
-# Aituria — Restaurant Ordering System
+# ITALIANO — Restaurant Ordering System
 
 Team project in Java 21 and Spring Boot with six integrated design patterns:
 Anuar's **Builder** and **Factory Method**, Akmaral's **Strategy** and **Bridge**,
@@ -24,13 +24,12 @@ and `--demo` on pushes and pull requests.
 
 ## Website
 
-Aituria uses dark espresso backgrounds throughout the hero, menu, basket,
-dish options, order history, and HTML receipts, with bronze action buttons.
-The original floating-pizza artwork fills the hero. Product dialogs show the
-base price, optional toppings, quantity, and quoted total together. Russian
-interface labels and spaced KZT prices keep the ordering flow short.
-The bronze Aituria emblem appears beside the name and in the browser icons.
-Decorative dividers, repeated slogans, and motion controls are omitted.
+ITALIANO has an English interface with dark espresso and light ivory themes.
+The header switch saves the selected theme locally. The two supplied ITALIANO
+wordmarks appear in their matching themes, and HTML receipts follow the active
+theme. Product dialogs show the photograph, base price, optional toppings,
+quantity, and quoted total together. Decorative dividers, repeated slogans,
+and motion controls are omitted.
 
 The menu uses real Unsplash food photographs, clear prices, straightforward
 category navigation, and a persistent basket. The six menu photographs are
@@ -43,8 +42,8 @@ and place an order. Each order shows its current status, items, total, and recei
 The order details disclosure contains customer history from Java Observer notifications;
 its demo controls disclosure provides kitchen history, the remaining document
 formats, and an explicitly labelled status advance. Customer and kitchen documents
-use Akmaral's Bridge in HTML or text. Russian names and messages are presentation
-labels; API data, document content, and pricing remain authoritative.
+use Akmaral's Bridge in HTML or text. API data, document content, and pricing
+remain authoritative. Theme changes preserve the basket and form inputs.
 
 See [Mukhammad's implementation and verification notes](docs/MUKHAMMAD.md).
 Image sources are recorded in
@@ -52,6 +51,19 @@ Image sources are recorded in
 licenses are included alongside the local font files:
 [`Bricolage Grotesque`](src/main/resources/static/fonts/OFL-BricolageGrotesque.txt)
 and [`DM Sans`](src/main/resources/static/fonts/OFL-DMSans.txt).
+
+## Final submission
+
+The [final report](output/pdf/ITALIANO-Final-Report.pdf) explains all six patterns,
+their integration, UML, code examples, contributions, verification, and defense
+topics. Its editable generator and diagram sources are in `docs/report/`.
+The Java package root contains only the six pattern packages and `Main.java`.
+The original contributions by Anuar, Akmaral, and Mukhammad remain in Git history.
+
+Submit the PDF report, source ZIP, and repository link through Moodle. Each
+student must submit individually and attend the defense. The supplied course
+page lists the deadline as 15 November 2026, 23:59; its weekday label is
+inconsistent, so check the date/time in Moodle when submitting.
 
 ## Anuar's two patterns
 
@@ -179,7 +191,7 @@ use the same discounted total returned at placement.
 | --- | --- | --- |
 | Anuar | [ANAYSSA](https://github.com/ANAYSSA) | Builder, Factory Method — implemented here |
 | Akmaral | [arynttai](https://github.com/arynttai) | Strategy, Bridge — implemented here |
-| Mukhammad | [vertex-blip](https://github.com/vertex-blip) | Observer, Decorator, website integration — implemented in this worktree |
+| Mukhammad | [vertex-blip](https://github.com/vertex-blip) | Observer, Decorator, website integration — implemented here |
 
 The integrated flow is **Factory → Decorator → Builder → Strategy**, followed
 by Observer status notifications and Bridge receipts. The original Factory,
@@ -190,17 +202,14 @@ See [Akmaral's integration notes](docs/AKMARAL.md#integration-for-mukhammad) and
 Each member must use their own GitHub-linked commit email and commit real implementation changes. Merge their commits into `main` without replacing authors. GitHub's commit history shows authors directly; profile graphs and Contributors may update later because GitHub caches them.
 
 The current implementation covers **two creational, two behavioral, and two
-structural patterns**. `./mvnw verify` passed 61 tests in the current integration
+structural patterns**. `./mvnw verify` passed 63 tests in the current integration
 run, including domain, HTTP, idempotency, session-isolation, and package-layout
 checks. Desktop and mobile browser checks passed for the complete ordering flow,
 keyboard dialogs, receipts, and error recovery; see [Mukhammad's notes](docs/MUKHAMMAD.md).
-A local
-implementation/test result does not establish that changes have been published
-or that GitHub Actions has run for them.
-
-The final team submission still requires reviewed screenshots, complete project
-UML, the combined PDF report, source ZIP, and each student's individual Moodle
-submission by the course deadline. This repository does not claim those
-submission steps have happened.
+The reviewed English screenshots, seven UML diagrams, report generator, and
+combined PDF report are included. Export a source archive from the final commit
+with `git archive --format=zip --prefix=ITALIANO/ --output=ITALIANO-source.zip HEAD`.
+Each student still needs to submit the files and repository link to Moodle and
+complete the oral defense.
 
 Anuar's initial foundation adapted Builder/Factory from [Final-Project-SDP](https://github.com/ANAYSSA/Final-Project-SDP), removing dependencies on the other four patterns before the team's separate integrations. It continues the [Builder](https://github.com/ANAYSSA/SDPAssignment1Builder) and [Abstract Factory assignment](https://github.com/ANAYSSA/Assignment2SDP_AbstractFactory_AnuarM); this contribution explicitly demonstrates **Factory Method**.

@@ -1,4 +1,4 @@
-# Mukhammad — Observer, Decorator, and Aituria website integration
+# Mukhammad — Observer, Decorator, and ITALIANO website integration
 
 This work extends the current `sdp_final` foundation through its existing
 public contracts. Anuar's Builder/Factory and Akmaral's Strategy/Bridge remain
@@ -19,6 +19,8 @@ These commits were published under `Vertex-blip` on
 contains the integration; the GitHub Actions run for `0e48a73` passed.
 The interface cleanup is tracked in [PR #2](https://github.com/arynttai/sdp_final/pull/2)
 on `feature/mukhammad-refine-interface`, preserving the original dark hero artwork.
+The English ITALIANO identity, light/dark themes, and final submission report are
+developed on `feature/mukhammad-italiano-themes` from the merged project history.
 
 ## Decorator
 
@@ -160,14 +162,12 @@ and adds a complete six-pattern walkthrough without starting a server.
 
 ## Design implementation
 
-`static/index.html`, `styles.css`, and `app.js` implement a restaurant interface
-with dark espresso backgrounds across the hero, menu, basket, dialogs, and orders,
-plus bronze accents and clear action buttons.
-The original floating-pizza artwork, supplied again by the user, fills the hero.
-The bronze Aituria identity uses locally served Bricolage Grotesque and DM Sans
-with system Georgia. Food photographs, clear prices, categories, and a persistent
-basket support ordering. Russian interface labels and spaced KZT prices are
-localized in the browser without changing the menu IDs or API data. Product
+`static/index.html`, `styles.css`, `theme.js`, and `app.js` implement an English
+restaurant interface with dark espresso and light ivory themes. The supplied
+ITALIANO wordmarks switch with the theme, which is saved locally and applied
+before the stylesheet loads. The original floating-pizza artwork is retained.
+Food photographs, clear prices, categories, and a persistent basket support
+ordering. English menu labels come directly from the server. Product
 dialogs place the base price, toppings, quantity, and total beside a large photo.
 The six menu photographs use 1600-pixel-wide variants of their original sources.
 The basket and order views use server-provided options, prices, totals, status
@@ -181,9 +181,10 @@ customer history; nested demo controls preserve kitchen notifications,
 all remaining receipt formats, and the demo status action. Expanded sections
 survive refresh and status changes, and keyboard focus follows the status action.
 Functional form labels, price information, and the checkout demo notice remain.
-The stylesheet defines one responsive layout. HTML receipt documents use the
-same dark palette through the web wrapper; the Bridge renderer and its document
-content retain their existing contracts. Printed receipts use light paper colors.
+The stylesheet defines one responsive layout with theme color tokens. HTML
+receipts use a validated light/dark parameter through the web wrapper; the Bridge
+renderer, CSP, and escaped document content retain their existing contracts.
+Printed receipts use light paper colors.
 
 Menu photography is illustrative; its source URLs and Unsplash license reference,
 along with the generated hero and logo artwork's provenance, are recorded in
@@ -211,7 +212,7 @@ been checked; the current verification status is stated below.
 
 ## Verification status
 
-The integration run of `./mvnw verify` passed **61 tests**, with zero failures,
+The integration run of `./mvnw verify` passed **63 tests**, with zero failures,
 errors, or skips. Existing team tests were retained. New coverage includes:
 
 - `decorator.ToppingDecoratorTest`: composition, wrapping order, metadata,
@@ -222,7 +223,7 @@ errors, or skips. Existing team tests were retained. New coverage includes:
   immutable history snapshots, and independent subjects.
 - `builder.RestaurantApiTest`: quote/order/receipt agreement, repeat requests,
   concurrent idempotency, transitions, session isolation, receipt escaping,
-  input validation, and session capacity.
+  input validation, session capacity, both receipt themes, and invalid theme rejection.
 - `builder.PackageLayoutTest`: exactly six pattern packages and one root entry
   point with matching source paths.
 
@@ -242,10 +243,10 @@ order; a second session could not see it. Network-error recovery passed.
 Fresh-page checks found no JavaScript errors or failed resources, and neither
 layout overflowed horizontally.
 
-The final dark interface also passed checks at 320, 768, and 1024 pixels.
-Russian labels and prices, image activation, modal base prices, dark checkout
-fields and HTML receipts, and the absence of duplicate discount percentages
-were verified. Order disclosures retained their state through refresh and
+Both themes also passed checks at 320, 768, and 1024 pixels.
+English labels and prices, image activation, modal base prices, checkout fields,
+and HTML receipts are included in the two-theme verification. Order disclosures
+retain their state through refresh and
 status changes, with keyboard focus preserved; multiple orders and long
 names/notes wrapped without overflow.
 
@@ -254,9 +255,12 @@ Screenshots: [desktop menu](screenshots/desktop-menu.png),
 [desktop order](screenshots/desktop-orders.png), and
 [mobile order](screenshots/mobile-orders.png),
 [desktop dish options](screenshots/desktop-dialog.png), and
-[mobile dish options](screenshots/mobile-dialog.png).
-The team PDF/ZIP/Moodle submissions and deployment are separate steps; this
-document does not claim they have happened.
+[mobile dish options](screenshots/mobile-dialog.png). Light-theme captures are
+in [screenshots/light](screenshots/light). Theme persistence, cross-tab changes,
+and unavailable browser storage were checked without losing checkout data.
+The [final report](../output/pdf/ITALIANO-Final-Report.pdf) includes all six
+patterns and the integration UML. Individual Moodle submissions and the oral
+defense remain student actions.
 
 ## Defense explanation
 

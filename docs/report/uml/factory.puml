@@ -1,0 +1,27 @@
+@startuml
+skinparam classAttributeIconSize 0
+abstract class MealFactory {
+  +create(MenuDefinition): Meal
+# createMeal(MenuDefinition): Meal
+}
+class PizzaFactory
+class PastaFactory
+class DrinkFactory
+interface Meal
+abstract class BaseMeal
+class Pizza
+class Pasta
+class Drink
+class MenuCatalog
+Meal <|.. BaseMeal
+BaseMeal <|-- Pizza
+BaseMeal <|-- Pasta
+BaseMeal <|-- Drink
+MealFactory <|-- PizzaFactory
+MealFactory <|-- PastaFactory
+MealFactory <|-- DrinkFactory
+PizzaFactory ..> Pizza : creates
+PastaFactory ..> Pasta : creates
+DrinkFactory ..> Drink : creates
+MenuCatalog --> MealFactory : selects by category
+@enduml

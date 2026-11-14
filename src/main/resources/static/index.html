@@ -1,76 +1,76 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#171410">
-  <meta name="description" content="Aituria — пицца, паста и напитки. Заказ в зале и с собой.">
-  <title>Aituria — Пицца и паста</title>
-  <link rel="icon" href="/images/favicon.png" type="image/png" sizes="64x64">
-  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="description" content="ITALIANO. Pizza, pasta and drinks. Dine in or take away.">
+  <title>ITALIANO — Pizza & pasta</title>
+  <link rel="icon" href="/images/italiano-icon.svg" type="image/svg+xml">
+  <script src="/theme.js"></script>
   <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">К содержимому</a>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="#menu" aria-label="Aituria — главная"><img class="brand-mark" src="/images/aituria-emblem.png" width="48" height="48" alt=""><span class="brand-name">Aituria</span></a>
-    <nav aria-label="Навигация"><a href="#menu" class="active">Меню</a><a href="#orders">Заказы <span id="order-count" class="nav-count" hidden>0</span></a></nav>
-    <a href="#your-order" class="basket-link" aria-label="Открыть корзину"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16l-2 12H6L4 8Z M8 8l4-5 4 5"/></svg><span>Корзина</span><b id="cart-count">0</b></a>
+    <a class="brand" href="#menu" aria-label="ITALIANO home"><img class="brand-logo logo-dark" src="/images/italiano-logo-dark.png" width="2172" height="724" alt=""><img class="brand-logo logo-light" src="/images/italiano-logo-light.png" width="2172" height="724" alt=""></a>
+    <nav aria-label="Main navigation"><a href="#menu" class="active">Menu</a><a href="#orders">Orders <span id="order-count" class="nav-count" hidden>0</span></a></nav>
+    <div class="header-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme"><svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.3 14.7A8.5 8.5 0 0 1 9.3 3.7a8.5 8.5 0 1 0 11 11Z"/></svg></button><a href="#your-order" class="basket-link" aria-label="Open basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16l-2 12H6L4 8Z M8 8l4-5 4 5"/></svg><span>Basket</span><b id="cart-count">0</b></a></div>
   </header>
   <main id="main">
     <div id="view-menu">
       <section class="restaurant-hero" aria-labelledby="hero-title">
-        <img class="hero-art" src="/images/hero-cinematic.jpg" alt="Пицца с базиликом и томатами над керамической тарелкой" width="1920" height="1088" fetchpriority="high" decoding="async">
+        <img class="hero-art" src="/images/hero-cinematic.jpg" alt="Pizza with basil and tomatoes above a ceramic plate" width="1920" height="1088" fetchpriority="high" decoding="async">
         <div class="hero-content page-width">
-          <h1 id="hero-title">Пицца<em>и паста.</em></h1>
-          <a class="hero-cta" href="#menu-list">Меню</a>
+          <h1 id="hero-title">Pizza &<em>pasta.</em></h1>
+          <a class="hero-cta" href="#menu-list">Menu</a>
         </div>
       </section>
       <section class="menu-layout page-width" id="menu-list" aria-labelledby="menu-heading">
         <div class="menu-main">
-          <div class="section-top"><h2 id="menu-heading">Меню</h2><span id="menu-count" class="menu-count" hidden></span></div>
+          <div class="section-top"><h2 id="menu-heading">Menu</h2><span id="menu-count" class="menu-count" hidden></span></div>
           <div class="menu-toolbar">
-            <div class="category-tabs" role="group" aria-label="Категория"><button type="button" data-category="ALL" class="active" aria-pressed="true">Все</button><button type="button" data-category="PIZZA" aria-pressed="false">Пицца</button><button type="button" data-category="PASTA" aria-pressed="false">Паста</button><button type="button" data-category="DRINK" aria-pressed="false">Напитки</button></div>
-            <label class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="sr-only">Поиск по меню</span><input id="menu-search" type="search" placeholder="Поиск"></label>
+            <div class="category-tabs" role="group" aria-label="Food category"><button type="button" data-category="ALL" class="active" aria-pressed="true">All</button><button type="button" data-category="PIZZA" aria-pressed="false">Pizza</button><button type="button" data-category="PASTA" aria-pressed="false">Pasta</button><button type="button" data-category="DRINK" aria-pressed="false">Drinks</button></div>
+            <label class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="sr-only">Search the menu</span><input id="menu-search" type="search" placeholder="Search"></label>
           </div>
           <div id="menu-error" class="error-box" role="alert" hidden></div>
-          <div id="menu-grid" class="menu-grid" aria-live="polite"><div class="loading-state"><span class="loading-ring"></span>Загрузка…</div></div>
+          <div id="menu-grid" class="menu-grid" aria-live="polite"><div class="loading-state"><span class="loading-ring"></span>Loading…</div></div>
         </div>
         <div id="your-order" class="cart-anchor">
           <aside id="cart-panel" class="cart-panel" aria-labelledby="cart-heading">
-            <div class="cart-heading"><h2 id="cart-heading">Корзина</h2></div>
-            <div id="cart-empty" class="cart-empty"><p>Нет товаров</p></div>
+            <div class="cart-heading"><h2 id="cart-heading">Basket</h2></div>
+            <div id="cart-empty" class="cart-empty"><p>Your basket is empty.</p></div>
             <div id="cart-items"></div>
             <form id="checkout-form" hidden>
-              <fieldset class="service-field"><legend class="sr-only">Тип заказа</legend><div class="service-toggle"><label><input type="radio" name="fulfillment" value="DINE_IN"><span>В зале</span></label><label><input type="radio" name="fulfillment" value="TAKEAWAY" checked><span>С собой</span></label></div></fieldset>
-              <div class="customer-fields"><label for="customer-name">Имя<input id="customer-name" minlength="2" maxlength="60" autocomplete="given-name" required></label><label for="table-number" id="table-field" hidden>Стол<select id="table-number" aria-label="Номер стола"></select></label></div>
-              <label class="field-label" for="discount-code">Скидка<select id="discount-code"><option value="NONE">Без скидки</option></select></label>
-              <label class="field-label" for="order-note">Комментарий<textarea id="order-note" maxlength="300" rows="2"></textarea></label>
-              <div class="cart-totals"><div><span>Сумма</span><span id="quote-subtotal">—</span></div><div><span>Скидка</span><span id="quote-discount">—</span></div><div class="cart-total"><span>Итого</span><strong id="quote-total">—</strong></div></div>
+              <fieldset class="service-field"><legend class="sr-only">Order type</legend><div class="service-toggle"><label><input type="radio" name="fulfillment" value="DINE_IN"><span>Dine-in</span></label><label><input type="radio" name="fulfillment" value="TAKEAWAY" checked><span>Takeaway</span></label></div></fieldset>
+              <div class="customer-fields"><label for="customer-name">Name<input id="customer-name" minlength="2" maxlength="60" autocomplete="given-name" required></label><label for="table-number" id="table-field" hidden>Table<select id="table-number" aria-label="Table number"></select></label></div>
+              <label class="field-label" for="discount-code">Discount<select id="discount-code"><option value="NONE">No discount</option></select></label>
+              <label class="field-label" for="order-note">Kitchen note<textarea id="order-note" maxlength="300" rows="2"></textarea></label>
+              <div class="cart-totals"><div><span>Subtotal</span><span id="quote-subtotal">—</span></div><div><span>Discount</span><span id="quote-discount">—</span></div><div class="cart-total"><span>Total</span><strong id="quote-total">—</strong></div></div>
               <div id="checkout-error" class="error-box" role="alert" hidden></div>
-              <button class="primary-button" id="place-order" type="submit" disabled>Оформить заказ</button>
-              <p class="demo-note">Учебный заказ, без оплаты.</p>
+              <button class="primary-button" id="place-order" type="submit" disabled>Place order</button>
+              <p class="demo-note">Demo order. No payment is taken.</p>
             </form>
           </aside>
         </div>
       </section>
     </div>
     <section id="view-orders" class="orders-view page-width" hidden aria-labelledby="orders-heading">
-      <div class="orders-top"><h1 id="orders-heading">Заказы</h1><button id="refresh-orders" class="refresh-orders" type="button" aria-label="Обновить заказы" title="Обновить заказы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M19 12a7 7 0 0 0-12-5L4 10m16 4-3 3a7 7 0 0 1-12-5"/></svg></button></div>
+      <div class="orders-top"><h1 id="orders-heading">Orders</h1><button id="refresh-orders" class="refresh-orders" type="button" aria-label="Refresh orders" title="Refresh orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M19 12a7 7 0 0 0-12-5L4 10m16 4-3 3a7 7 0 0 1-12-5"/></svg></button></div>
       <div id="orders-error" class="error-box" role="alert" hidden></div><div id="orders-list" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="site-footer page-width"><a class="footer-brand" href="#menu" aria-label="Aituria — главная"><img src="/images/aituria-emblem.png" width="36" height="36" alt="" loading="lazy">Aituria</a></footer>
+  <footer class="site-footer page-width"><a class="footer-brand" href="#menu" aria-label="ITALIANO home"><img class="brand-logo logo-dark" src="/images/italiano-logo-dark.png" width="2172" height="724" alt="" loading="lazy"><img class="brand-logo logo-light" src="/images/italiano-logo-light.png" width="2172" height="724" alt="" loading="lazy"></a></footer>
   <dialog id="customize-dialog" class="customize-dialog" aria-labelledby="dialog-name">
-    <button type="button" id="close-dialog" class="close-dialog" aria-label="Закрыть">×</button>
+    <button type="button" id="close-dialog" class="close-dialog" aria-label="Close dish options">×</button>
     <div class="dialog-visual"><img id="dialog-image" alt=""></div>
     <form id="customize-form" class="dialog-content">
       <span id="dialog-category" class="sr-only"></span><h2 id="dialog-name"></h2><p id="dialog-price" class="dialog-price"></p><p id="dialog-description"></p>
-      <fieldset class="toppings-field"><legend>Добавить</legend><div id="topping-options"></div></fieldset>
+      <fieldset class="toppings-field"><legend>Add extras</legend><div id="topping-options"></div></fieldset>
       <div id="dialog-error" class="error-box" role="alert" hidden></div>
-      <div class="dialog-purchase"><div class="quantity-stepper"><button id="dialog-minus" type="button" aria-label="Уменьшить количество">−</button><input id="dialog-quantity" type="number" min="1" max="10" value="1" aria-label="Количество" required><button id="dialog-plus" type="button" aria-label="Увеличить количество">+</button></div><button type="submit" id="add-to-cart" class="primary-button"><span>В корзину</span><strong id="dialog-total">—</strong></button></div>
+      <div class="dialog-purchase"><div class="quantity-stepper"><button id="dialog-minus" type="button" aria-label="Decrease quantity">−</button><input id="dialog-quantity" type="number" min="1" max="10" value="1" aria-label="Quantity" required><button id="dialog-plus" type="button" aria-label="Increase quantity">+</button></div><button type="submit" id="add-to-cart" class="primary-button"><span>Add to basket</span><strong id="dialog-total">—</strong></button></div>
     </form>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

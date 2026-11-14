@@ -1,4 +1,13 @@
-Aituria emblem
+ITALIANO wordmarks
+italiano-logo-light.png, italiano-logo-dark.png
+  Supplied by the user on 2026-11-14 for the light and dark themes respectively.
+  Original PNG bytes preserved, including transparency; both are 2172 x 724.
+  Their creators/generation tools were not specified. No new image generation
+  was used for this branding update. CSS crops the transparent margins in the header.
+italiano-icon.svg
+  Small code-drawn pizza-slice browser icon following the supplied brand colors.
+
+Archived Aituria emblem (no longer used by the website)
 aituria-emblem.png, favicon.png, apple-touch-icon.png
   Created with OpenAI's built-in image generator on 2026-11-14 for this website.
   Sculptural champagne-bronze ribbon A with an oven-arch opening and transparent background.

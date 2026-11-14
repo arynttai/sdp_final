@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="500" height="258" preserveAspectRatio="xMinYMin meet" viewBox="0 0 500 258" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="500" height="258"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-258)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="175" y="182" width="170" height="68" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="240.6661865234375" y="238" style="font-family: ReportItalic; font-size: 6.9px;fill: rgb(42%,40%,36%); stroke:none;" transform="translate(0,476) scale(1,-1)">&lt;&lt;interface&gt;&gt;</text>
+			<text x="231.53125" y="228" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,456) scale(1,-1)">DiscountStrategy</text>
+			<path d="M 175,221 L 345,221 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="182" y="210" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,420) scale(1,-1)">+code(): String</text>
+			<text x="182" y="202" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,404) scale(1,-1)">+discount(Order): BigDecimal</text>
+			<rect x="0" y="77" width="184" height="80" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="63.95703125" y="145" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,290) scale(1,-1)">PricingCalculator</text>
+			<path d="M 0,138 L 184,138 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="7" y="127" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,254) scale(1,-1)">+calculate(order, strategy)</text>
+			<text x="7" y="119" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,238) scale(1,-1)">  : Pricing</text>
+			<rect x="0" y="0" width="184" height="60" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="76.134716796875" y="48" style="font-family: ReportItalic; font-size: 6.9px;fill: rgb(42%,40%,36%); stroke:none;" transform="translate(0,96) scale(1,-1)">&lt;&lt;record&gt;&gt;</text>
+			<text x="80.767578125" y="38" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,76) scale(1,-1)">Pricing</text>
+			<path d="M 0,31 L 184,31 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="7" y="20" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,40) scale(1,-1)">+subtotal(); +discount(); +total()</text>
+			<polyline points="92 157, 92 216, 175 216" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: None; fill-rule: evenodd;"/>
+			<path d="M 175,216 L 168,218.8 Z" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65;"/>
+			<path d="M 175,216 L 168,213.2 Z" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65;"/>
+			<text x="116.042919921875" y="222" style="font-family: Report; font-size: 6.6px;fill: rgb(42%,40%,36%); stroke:none;" transform="translate(0,444) scale(1,-1)">uses</text>
+			<polyline points="92 77, 92 60" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: None; fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<path d="M 92,60 L 94.8,67 Z" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65;"/>
+			<path d="M 92,60 L 89.2,67 Z" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65;"/>
+			<rect x="195" y="65" width="95" height="80" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="237.71484375" y="133" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,266) scale(1,-1)">No</text>
+			<text x="227.896484375" y="123" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,246) scale(1,-1)">Discount</text>
+			<path d="M 195,116 L 290,116 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="202" y="105" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,210) scale(1,-1)">+discount(order)</text>
+			<text x="202" y="97" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,194) scale(1,-1)">0%</text>
+			<polyline points="242 145, 242 166, 260 166, 260 182" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: None; fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<polygon points="260 182, 256.7 175, 263.3 175" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="300" y="65" width="95" height="80" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="334.3828125" y="133" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,266) scale(1,-1)">Student</text>
+			<text x="332.896484375" y="123" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,246) scale(1,-1)">Discount</text>
+			<path d="M 300,116 L 395,116 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="307" y="105" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,210) scale(1,-1)">+discount(order)</text>
+			<text x="307" y="97" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,194) scale(1,-1)">10%</text>
+			<polyline points="347 145, 347 166, 260 166, 260 182" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: None; fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<polygon points="260 182, 256.7 175, 263.3 175" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="405" y="65" width="95" height="80" style="stroke: rgb(60%,44%,24%); stroke-linecap: butt; stroke-width: 0.75; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="441.501953125" y="133" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,266) scale(1,-1)">Pickup</text>
+			<text x="437.896484375" y="123" style="font-family: ReportBold; font-size: 8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,246) scale(1,-1)">Discount</text>
+			<path d="M 405,116 L 500,116 Z" style="stroke: rgb(87%,84%,80%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="412" y="105" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,210) scale(1,-1)">+discount(order)</text>
+			<text x="412" y="97" style="font-family: Report; font-size: 6.8px;fill: rgb(14%,13%,12%); stroke:none;" transform="translate(0,194) scale(1,-1)">20%, takeaway</text>
+			<polyline points="452 145, 452 166, 260 166, 260 182" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: None; fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<polygon points="260 182, 256.7 175, 263.3 175" style="stroke: rgb(42%,40%,36%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

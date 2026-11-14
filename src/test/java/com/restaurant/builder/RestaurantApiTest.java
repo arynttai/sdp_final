@@ -120,6 +120,44 @@ class RestaurantApiTest {
         }
         mvc.perform(get("/api/orders/" + id + "/receipt").session(session).param("format", "pdf")).andExpect(status().isBadRequest());
     }
+    @Test void receiptThemesPreserveContentEscapingAndSecurityHeaders() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        String id = place(request().put("customerName", "<script>name</script>").put("note", "<img src=x>"), session).get("id").asText();
+        String path = "/api/orders/" + id + "/receipt";
+        for (String type : List.of("customer", "kitchen")) {
+            String defaultBody = mvc.perform(get(path).session(session).param("type", type))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+            String expectedContent = defaultBody.substring(defaultBody.indexOf("<body>") + 6, defaultBody.indexOf("</body>"));
+            for (String theme : List.of("dark", "light")) {
+                String html = mvc.perform(get(path).session(session).param("type", type).param("theme", theme))
+                    .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                    .andExpect(header().string("Cache-Control", "no-store"))
+                    .andExpect(header().string("X-Content-Type-Options", "nosniff"))
+                    .andExpect(header().string("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'"))
+                    .andReturn().getResponse().getContentAsString();
+                assertThat(html).contains("<title>ITALIANO — Receipt</title>", "html{color-scheme:" + theme,
+                    "@media print{html{color-scheme:light;background:white;color:black}", "&lt;img src=x&gt;")
+                    .doesNotContain("<script>", "<img ");
+                assertThat(html.substring(html.indexOf("<body>") + 6, html.indexOf("</body>"))).isEqualTo(expectedContent);
+                if (theme.equals("dark")) assertThat(html).isEqualTo(defaultBody).contains("background:#171410");
+                else assertThat(html).contains("background:#f7f2e9");
+            }
+            String text = mvc.perform(get(path).session(session).param("type", type).param("format", "text"))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+            mvc.perform(get(path).session(session).param("type", type).param("format", "text").param("theme", "light"))
+                .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string(text));
+        }
+    }
+    @Test void invalidReceiptThemesAreRejectedWithoutReflectingMarkup() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        String id = place(request(), session).get("id").asText();
+        for (String theme : List.of("sepia", "DARK", "light;background:url(https://example.com)", "\"><script>alert(1)</script>")) {
+            mvc.perform(get("/api/orders/" + id + "/receipt").session(session).param("theme", theme))
+                .andExpect(status().isBadRequest()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Receipt theme must be dark or light"));
+        }
+    }
     static Stream<String> invalidToppings() {
         return Stream.of("null", "[null]", "[\"\"]", "[\"unknown\"]", "[\"cheese\",\"cheese\"]", "[\"cheese\",\"mushrooms\",\"olives\",\"other\"]");
     }

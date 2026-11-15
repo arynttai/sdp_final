@@ -73,7 +73,7 @@ Use JDK 21 or newer. From the project folder in Windows PowerShell:
 
 ```powershell
 .\mvnw.cmd package
-java -jar target/hearth-and-table-1.0.0.jar --demo
+java -jar target/italiano-1.0.0.jar --demo
 ```
 
 [Main](../src/main/java/com/restaurant/Main.java) demonstrates all six patterns. For a 3400 KZT takeaway order, the three strategies give totals of 3400, 3060 and 2720 KZT. It shows all four receipt combinations. The combined example checks 4700 KZT before discount, 4230 KZT after discount and eight notifications.

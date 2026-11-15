@@ -21,7 +21,7 @@ On Linux or macOS, use `./mvnw package`.
 Show all six patterns through `Main`:
 
 ```sh
-java -jar target/hearth-and-table-1.0.0.jar --demo
+java -jar target/italiano-1.0.0.jar --demo
 ```
 
 The demo shows six steps: create a meal, add cheese, build an order, choose a
@@ -32,7 +32,7 @@ Two Margheritas with cheese cost 4700 KZT, or 4230 KZT with the student discount
 Start the website:
 
 ```sh
-java -jar target/hearth-and-table-1.0.0.jar
+java -jar target/italiano-1.0.0.jar
 ```
 
 Open [localhost:8080](http://localhost:8080). In IntelliJ IDEA, run `Main` with

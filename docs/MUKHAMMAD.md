@@ -102,8 +102,8 @@ Use JDK 21 or newer and set `JAVA_HOME` to it. On Windows PowerShell, run:
 
 ```powershell
 .\mvnw.cmd package
-java -jar target/hearth-and-table-1.0.0.jar --demo
-java -jar target/hearth-and-table-1.0.0.jar
+java -jar target/italiano-1.0.0.jar --demo
+java -jar target/italiano-1.0.0.jar
 ```
 
 On Linux or macOS, use `./mvnw package` for the first command. Open

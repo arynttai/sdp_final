@@ -74,7 +74,7 @@ Use JDK 21 or newer. From the project folder in Windows PowerShell:
 
 ```powershell
 .\mvnw.cmd package
-java -jar target/hearth-and-table-1.0.0.jar --demo
+java -jar target/italiano-1.0.0.jar --demo
 ```
 
 On Linux or macOS, use `./mvnw package` for the build.

@@ -8,9 +8,9 @@
     <relativePath/>
   </parent>
   <groupId>com.restaurant</groupId>
-  <artifactId>hearth-and-table</artifactId>
+  <artifactId>italiano</artifactId>
   <version>1.0.0</version>
-  <name>Restaurant Ordering System</name>
+  <name>ITALIANO Restaurant Ordering System</name>
   <description>Six integrated patterns and the restaurant ordering website</description>
   <properties>
     <java.version>21</java.version>

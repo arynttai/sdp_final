@@ -9,7 +9,7 @@
     quote: null, quoteSequence: 0, dialogSequence: 0, ordersSequence: 0, quoteTimer: null,
     dialogTimer: null, requestId: null, fingerprint: null, linePrices: new Map()
   };
-  const cartKey = 'hearth-table-cart-v1';
+  const cartKey = 'italiano-cart-v1';
   const moneyFormat = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 2, useGrouping: true });
   const money = value => `${moneyFormat.format(Number(value))} ₸`;
   const categories = { PIZZA: 'Pizza', PASTA: 'Pasta', DRINK: 'Drinks' };

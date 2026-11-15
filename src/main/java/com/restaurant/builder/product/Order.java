@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-/** Immutable Builder product; construction always passes through Builder.build(). */
 public final class Order {
     private final UUID id;
     private final String customerName;
@@ -27,8 +26,11 @@ public final class Order {
         note = builder.note.strip();
         createdAt = Instant.now();
         items = List.copyOf(builder.items);
-        subtotal = items.stream().map(OrderLine::lineTotal)
-            .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (OrderLine line : items) {
+            sum = sum.add(line.lineTotal());
+        }
+        subtotal = sum.setScale(2, RoundingMode.HALF_UP);
     }
 
     public UUID id() { return id; }
@@ -39,10 +41,8 @@ public final class Order {
     public Instant createdAt() { return createdAt; }
     public List<OrderLine> items() { return items; }
     public BigDecimal subtotal() { return subtotal; }
-    /** Original amount before discounts. Use Pricing.total() for the amount payable. */
     public BigDecimal total() { return subtotal; }
 
-    /** Builds different valid order configurations without a long public constructor. */
     public static final class Builder {
         public static final int MAX_LINES = 20;
         private String customerName;
@@ -97,9 +97,16 @@ public final class Order {
             if (note.length() > 300) {
                 throw new IllegalArgumentException("Note must not exceed 300 characters");
             }
-            if (customerName.chars().anyMatch(Character::isISOControl)
-                    || note.chars().anyMatch(c -> Character.isISOControl(c) && c != '\n' && c != '\t')) {
-                throw new IllegalArgumentException("Text contains unsupported control characters");
+            for (int i = 0; i < customerName.length(); i++) {
+                if (Character.isISOControl(customerName.charAt(i))) {
+                    throw new IllegalArgumentException("Text contains unsupported control characters");
+                }
+            }
+            for (int i = 0; i < note.length(); i++) {
+                char character = note.charAt(i);
+                if (Character.isISOControl(character) && character != '\n' && character != '\t') {
+                    throw new IllegalArgumentException("Text contains unsupported control characters");
+                }
             }
             return new Order(this);
         }

@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-/** Menu data and creator selection are kept outside concrete products. */
 public final class MenuCatalog {
     private final List<MenuDefinition> menu = List.of(
         item("margherita", "Margherita", "San Marzano tomato, mozzarella, fresh basil", MealCategory.PIZZA, "2000.00"),
@@ -23,8 +22,12 @@ public final class MenuCatalog {
     }
     public List<MenuDefinition> items() { return menu; }
     public Meal create(String id) {
-        MenuDefinition definition = menu.stream().filter(item -> item.id().equals(id)).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Unknown menu item: " + id));
-        return factories.get(definition.category()).create(definition);
+        for (MenuDefinition definition : menu) {
+            if (definition.id().equals(id)) {
+                MealFactory factory = factories.get(definition.category());
+                return factory.create(definition);
+            }
+        }
+        throw new IllegalArgumentException("Unknown menu item: " + id);
     }
 }

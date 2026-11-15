@@ -17,35 +17,35 @@ import com.restaurant.strategy.concrete.StudentDiscount;
 import com.restaurant.strategy.context.Pricing;
 import com.restaurant.strategy.context.PricingCalculator;
 import java.math.BigDecimal;
-import com.restaurant.builder.application.OrderService;
-import com.restaurant.builder.application.dto.ItemRequest;
-import com.restaurant.builder.application.dto.OrderRequest;
-import com.restaurant.builder.repository.OrderBook;
+import com.restaurant.decorator.concrete.ExtraCheese;
+import com.restaurant.observer.concrete.CustomerObserver;
+import com.restaurant.observer.concrete.KitchenObserver;
+import com.restaurant.observer.subject.OrderProgress;
+import com.restaurant.observer.event.OrderNotification;
+import com.restaurant.observer.event.OrderStatus;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/** One entry point: the website normally, the six-pattern walkthrough with --demo. */
 @SpringBootApplication(proxyBeanMethods = false)
 public class Main {
     public static void main(String[] args) {
         if (Arrays.asList(args).contains("--demo")) {
-            runOriginalDemo();
+            runBasicDemo();
             runIntegratedDemo();
         } else {
             SpringApplication.run(Main.class, args);
         }
     }
 
-    private static void runOriginalDemo() {
+    private static void runBasicDemo() {
         MenuCatalog menu = new MenuCatalog();
         Meal pizza = menu.create("margherita");
         Meal pasta = menu.create("alfredo");
         Meal drink = menu.create("lemonade");
 
-        System.out.println("RESTAURANT ORDERING SYSTEM — Anuar: Factory Method + Builder");
+        System.out.println("RESTAURANT ORDERING SYSTEM: Anuar: Factory Method + Builder");
         for (Meal meal : new Meal[]{pizza, pasta, drink}) {
             System.out.printf("Factory created %s: %s (%s KZT)%n",
                 meal.getClass().getSimpleName(), meal.name(), meal.price());
@@ -73,7 +73,7 @@ public class Main {
                 || takeaway.total().compareTo(new BigDecimal("3400.00")) != 0) {
             throw new IllegalStateException("Unexpected integrated order totals");
         }
-        System.out.println("PASS — Factory Method products integrated with validated immutable Builder orders.");
+        System.out.println("PASS: Factory Method products integrated with validated immutable Builder orders.");
 
         PricingCalculator calculator = new PricingCalculator();
         System.out.println("\nAkmaral: Strategy discounts for the takeaway order");
@@ -89,22 +89,54 @@ public class Main {
     }
 
     private static void runIntegratedDemo() {
-        OrderService service = new OrderService();
-        OrderBook book = new OrderBook();
-        OrderRequest request = new OrderRequest(List.of(new ItemRequest("margherita", 2, List.of("cheese"))),
-            Fulfillment.TAKEAWAY, "STUDENT", "Demo guest", null, "Please slice for sharing", UUID.randomUUID());
-        var order = service.place(request, book);
+        System.out.println("\n1. Factory Method: create a meal");
+        MenuCatalog menu = new MenuCatalog();
+        Meal pizza = menu.create("margherita");
+        System.out.println(pizza.name() + ": " + pizza.price() + " KZT");
+
+        System.out.println("\n2. Decorator: add cheese");
+        Meal withCheese = new ExtraCheese(pizza);
+        System.out.println(withCheese.name() + ": " + withCheese.price() + " KZT");
+
+        System.out.println("\n3. Builder: create an order");
+        Order order = new Order.Builder()
+            .customer("Demo guest")
+            .fulfillment(Fulfillment.TAKEAWAY)
+            .note("Please slice for sharing")
+            .addItem(new OrderLine(withCheese, 2, List.of("Extra cheese")))
+            .build();
+        printOrder(order);
+
+        System.out.println("\n4. Strategy: apply the student discount");
+        PricingCalculator calculator = new PricingCalculator();
+        Pricing pricing = calculator.calculate(order, new StudentDiscount());
+        System.out.println("Discount: " + pricing.discount() + " KZT");
+        System.out.println("Total: " + pricing.total() + " KZT");
         if (order.subtotal().compareTo(new BigDecimal("4700.00")) != 0
-                || order.total().compareTo(new BigDecimal("4230.00")) != 0) {
-            throw new IllegalStateException("Decorator and Strategy totals disagree");
+                || pricing.total().compareTo(new BigDecimal("4230.00")) != 0) {
+            throw new IllegalStateException("Wrong order total");
         }
-        System.out.println("\nMukhammad: Decorator and Observer integrated into the order flow");
-        System.out.println(order.items().getFirst().name() + " x 2: " + order.total() + " KZT after STUDENT");
-        for (int step = 0; step < 3; step++) order = service.advance(order.id(), book);
-        order.events().forEach(event -> System.out.println(event.audience() + " / " + event.status() + ": " + event.message()));
-        if (order.events().size() != 8) throw new IllegalStateException("Observer notifications missing");
-        System.out.println(service.receipt(order.id(), "text", "customer", book).body());
-        System.out.println("PASS — all six patterns exercised successfully.");
+
+        System.out.println("\n5. Observer: update the order status");
+        OrderProgress progress = new OrderProgress(order.id());
+        progress.subscribe(new CustomerObserver());
+        progress.subscribe(new KitchenObserver());
+        progress.announce();
+        progress.advance();
+        progress.advance();
+        progress.advance();
+        for (OrderNotification notification : progress.notifications()) {
+            System.out.println(notification.audience() + " / " + notification.status()
+                + ": " + notification.message());
+        }
+        if (progress.status() != OrderStatus.COMPLETED || progress.notifications().size() != 8) {
+            throw new IllegalStateException("Wrong status or notification count");
+        }
+
+        System.out.println("\n6. Bridge: print the customer receipt as text");
+        CustomerReceipt receipt = new CustomerReceipt(new TextReceiptRenderer());
+        System.out.println(receipt.render(order, pricing));
+        System.out.println("PASS: all six patterns work together.");
     }
 
     private static void printReceipts(Order order, Pricing pricing) {

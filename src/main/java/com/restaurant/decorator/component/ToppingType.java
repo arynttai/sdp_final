@@ -2,7 +2,6 @@ package com.restaurant.decorator.component;
 
 import java.math.BigDecimal;
 
-/** One source of topping metadata for the decorators and public menu. */
 public enum ToppingType {
     CHEESE("cheese", "Extra cheese", "350.00"),
     MUSHROOMS("mushrooms", "Mushrooms", "300.00"),

@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Objects;
 
-/** A topping remains a Meal, so the existing builder can consume nested wrappers. */
 public abstract class ToppingDecorator implements Meal {
     private final Meal wrapped;
     private final ToppingType topping;

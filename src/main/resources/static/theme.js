@@ -27,7 +27,7 @@
   try {
     const saved = localStorage.getItem(storageKey);
     if (isTheme(saved)) initial = saved;
-  } catch (_) { /* Theme switching still works when storage is unavailable. */ }
+  } catch (_) {  }
   apply(initial);
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +35,7 @@
     document.getElementById('theme-toggle')?.addEventListener('click', () => {
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
       apply(next);
-      try { localStorage.setItem(storageKey, next); } catch (_) { /* Optional persistence. */ }
+      try { localStorage.setItem(storageKey, next); } catch (_) {  }
     });
   });
   window.addEventListener('storage', event => {

@@ -6,7 +6,7 @@
   const state = {
     menu: null, cart: [], orders: [], category: 'ALL', query: '',
     editing: null, dish: null, opener: null, placing: false,
-    quote: null, quoteSequence: 0, dialogSequence: 0, quoteTimer: null,
+    quote: null, quoteSequence: 0, dialogSequence: 0, ordersSequence: 0, quoteTimer: null,
     dialogTimer: null, requestId: null, fingerprint: null, linePrices: new Map()
   };
   const cartKey = 'hearth-table-cart-v1';
@@ -63,7 +63,7 @@
     return ids.map(id => state.menu.toppings.find(topping => topping.id === id)?.name).filter(Boolean);
   }
   function persistCart() {
-    try { localStorage.setItem(cartKey, JSON.stringify(state.cart)); } catch (_) { /* A private browser can disable persistence. */ }
+    try { localStorage.setItem(cartKey, JSON.stringify(state.cart)); } catch (_) {  }
   }
   function restoreCart() {
     try {
@@ -113,7 +113,12 @@
   }
 
   function renderCart() {
-    const container = $('#cart-items'); container.replaceChildren();
+    const container = $('#cart-items');
+    const focused = document.activeElement;
+    const focusedRow = focused?.closest('.cart-row');
+    const focusedIndex = focusedRow && container.contains(focusedRow) ? [...container.children].indexOf(focusedRow) : -1;
+    const focusedControl = ['cart-edit', 'cart-remove', 'step-minus', 'step-plus'].find(name => focused?.classList.contains(name));
+    container.replaceChildren();
     const quantity = state.cart.reduce((count, line) => count + line.quantity, 0);
     $('#cart-count').textContent = quantity;
     $('#cart-empty').hidden = quantity > 0;
@@ -152,6 +157,11 @@
       state.linePrices.get(key).then(quote => { price.textContent = money(quote.subtotal); })
         .catch(() => { price.textContent = '—'; });
       bottom.append(stepper, price); body.append(top, options, bottom); row.append(image, body); container.append(row);
+    }
+    if (focusedIndex >= 0 && focusedControl) {
+      const row = container.children[Math.min(focusedIndex, container.children.length - 1)];
+      const replacement = row?.querySelector(`.${focusedControl}:not(:disabled)`) || row?.querySelector('.cart-edit:not(:disabled)');
+      (replacement || $('#menu-search')).focus();
     }
   }
 
@@ -303,6 +313,7 @@
     setCheckoutBusy(true); errorAt('#checkout-error');
     try {
       const order = await post('/api/orders', request);
+      invalidateOrdersLoad();
       state.orders = [order, ...state.orders.filter(existing => existing.id !== order.id)];
       state.cart = []; state.requestId = null; state.fingerprint = null; state.quote = null;
       persistCart(); renderOrders();
@@ -393,6 +404,7 @@
           advance.disabled = true; errorAt('#orders-error');
           try {
             const updated = await post(`/api/orders/${encodeURIComponent(order.id)}/advance`, {});
+            invalidateOrdersLoad();
             state.orders = state.orders.map(item => item.id === updated.id ? updated : item);
             renderOrders(); toast(statusLabels[updated.status] || updated.status);
             const updatedCard = $$('.order-card', container).find(card => card.dataset.orderId === order.id);
@@ -405,16 +417,29 @@
     }
   }
 
+  function invalidateOrdersLoad() {
+    state.ordersSequence++;
+    $('#refresh-orders').disabled = false;
+  }
+
   async function loadOrders() {
     if (!state.menu) return;
+    const sequence = ++state.ordersSequence;
     const refresh = $('#refresh-orders');
     const restoreFocus = document.activeElement === refresh;
     refresh.disabled = true; errorAt('#orders-error');
-    try { state.orders = await api('/api/orders'); renderOrders(); }
-    catch (error) { errorAt('#orders-error', error.message); }
+    try {
+      const orders = await api('/api/orders');
+      if (sequence !== state.ordersSequence) return;
+      state.orders = orders; renderOrders();
+    } catch (error) {
+      if (sequence === state.ordersSequence) errorAt('#orders-error', error.message);
+    }
     finally {
-      refresh.disabled = false;
-      if (restoreFocus && document.activeElement === document.body) refresh.focus();
+      if (sequence === state.ordersSequence) {
+        refresh.disabled = false;
+        if (restoreFocus && document.activeElement === document.body) refresh.focus();
+      }
     }
   }
 

@@ -6,6 +6,5 @@ import java.math.BigDecimal;
 public interface DiscountStrategy {
     String code();
 
-    /** Returns the discount amount in KZT, not the price after discount. */
     BigDecimal discount(Order order);
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-/** Validated menu data shared by all concrete products. Amounts are in KZT. */
 public record MenuDefinition(String id, String name, String description, MealCategory category, BigDecimal price) {
     public MenuDefinition {
         if (id == null || id.isBlank()) throw new IllegalArgumentException("Menu id is required");

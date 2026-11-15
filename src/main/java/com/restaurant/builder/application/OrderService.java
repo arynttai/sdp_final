@@ -15,11 +15,11 @@ import com.restaurant.strategy.api.DiscountStrategy;
 import com.restaurant.strategy.concrete.*;
 import com.restaurant.strategy.context.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
-/** Orchestrates the existing pattern contracts; domain pricing stays in Java. */
 @Service
 public final class OrderService {
     private final MenuCatalog menu = new MenuCatalog();
@@ -38,7 +38,6 @@ public final class OrderService {
 
     public PriceView quote(QuoteRequest request) {
         if (request == null) throw new IllegalArgumentException("Order details are required");
-        // Quote uses the same immutable order construction as placement, without storing an order.
         Order order = build(request.items(), request.fulfillment(), "Quote guest",
             request.fulfillment() == Fulfillment.DINE_IN ? 1 : null, "");
         return PriceView.of(calculator.calculate(order, discount(request.discountCode())));
@@ -65,7 +64,13 @@ public final class OrderService {
         }
     }
 
-    public List<OrderView> list(OrderBook book) { return book.all().stream().map(OrderView::of).toList(); }
+    public List<OrderView> list(OrderBook book) {
+        List<OrderView> orders = new ArrayList<>();
+        for (StoredOrder stored : book.all()) {
+            orders.add(OrderView.of(stored));
+        }
+        return List.copyOf(orders);
+    }
     public OrderView get(UUID id, OrderBook book) { return OrderView.of(find(id, book)); }
     public OrderView advance(UUID id, OrderBook book) {
         StoredOrder stored = find(id, book);
@@ -127,7 +132,11 @@ public final class OrderService {
         for (ItemRequest item : items) {
             if (item == null || item.menuItemId() == null) throw new IllegalArgumentException("Choose a menu item");
             Meal meal = toppings.decorate(menu.create(item.menuItemId()), item.toppings());
-            builder.addItem(new OrderLine(meal, item.quantity(), item.toppings().stream().map(toppings::name).toList()));
+            List<String> toppingNames = new ArrayList<>();
+            for (String toppingId : item.toppings()) {
+                toppingNames.add(toppings.name(toppingId));
+            }
+            builder.addItem(new OrderLine(meal, item.quantity(), toppingNames));
         }
         return builder.build();
     }

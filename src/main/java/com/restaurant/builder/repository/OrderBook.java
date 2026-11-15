@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
-/** Each HTTP session owns one bounded book; there is no global customer store. */
 public final class OrderBook {
     public static final int MAX_ORDERS = 20;
     private final Map<UUID, StoredOrder> orders = new LinkedHashMap<>();

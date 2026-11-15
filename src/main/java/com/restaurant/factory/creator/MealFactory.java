@@ -5,7 +5,6 @@ import com.restaurant.factory.product.MealCategory;
 import com.restaurant.factory.product.MenuDefinition;
 import java.util.Objects;
 
-/** Creator: the public operation delegates product construction to a factory method. */
 public abstract class MealFactory {
     private final MealCategory category;
     protected MealFactory(MealCategory category) { this.category = category; }

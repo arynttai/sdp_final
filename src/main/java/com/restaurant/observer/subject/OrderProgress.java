@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-/** Mutable status lives beside the immutable order, with one subject per order. */
 public final class OrderProgress {
     private final UUID orderId;
     private final Set<OrderObserver> observers = new LinkedHashSet<>();

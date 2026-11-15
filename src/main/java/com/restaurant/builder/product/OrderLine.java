@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
-/** One immutable order line; Meal also accepts future decorator implementations. */
 public record OrderLine(Meal meal, int quantity, List<String> toppings) {
     public OrderLine {
         Objects.requireNonNull(meal, "A meal is required");

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-/** A price snapshot; total is the amount payable after the selected discount. */
 public record Pricing(BigDecimal subtotal, BigDecimal discount, BigDecimal total) {
     public Pricing {
         Objects.requireNonNull(subtotal, "Subtotal is required");

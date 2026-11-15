@@ -6,47 +6,68 @@ import com.restaurant.decorator.concrete.Mushrooms;
 import com.restaurant.decorator.concrete.Olives;
 import com.restaurant.factory.product.Meal;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.UnaryOperator;
 
 public final class ToppingCatalog {
     public record Topping(String id, String name, BigDecimal price) { }
 
-    private final List<Topping> toppings = Arrays.stream(ToppingType.values())
-        .map(type -> new Topping(type.id(), type.displayName(), type.price())).toList();
-    private final Map<String, UnaryOperator<Meal>> decorators = Map.of(
-        ToppingType.CHEESE.id(), ExtraCheese::new,
-        ToppingType.MUSHROOMS.id(), Mushrooms::new,
-        ToppingType.OLIVES.id(), Olives::new);
+    private final List<Topping> toppings;
+
+    public ToppingCatalog() {
+        List<Topping> items = new ArrayList<>();
+        for (ToppingType type : ToppingType.values()) {
+            items.add(new Topping(type.id(), type.displayName(), type.price()));
+        }
+        toppings = List.copyOf(items);
+    }
 
     public List<Topping> items() { return toppings; }
 
     public Meal add(Meal meal, String id) {
-        if (id == null || id.isBlank() || !decorators.containsKey(id)) {
+        if (id == null) {
             throw new IllegalArgumentException("Unknown topping: " + id);
         }
-        return decorators.get(id).apply(meal);
+        switch (id) {
+            case "cheese":
+                return new ExtraCheese(meal);
+            case "mushrooms":
+                return new Mushrooms(meal);
+            case "olives":
+                return new Olives(meal);
+            default:
+                throw new IllegalArgumentException("Unknown topping: " + id);
+        }
     }
 
     public String name(String id) {
-        return toppings.stream().filter(topping -> topping.id().equals(id)).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Unknown topping: " + id)).name();
+        for (Topping topping : toppings) {
+            if (topping.id().equals(id)) {
+                return topping.name();
+            }
+        }
+        throw new IllegalArgumentException("Unknown topping: " + id);
     }
 
     public Meal decorate(Meal meal, List<String> ids) {
         Objects.requireNonNull(meal, "A meal is required");
-        if (ids == null || ids.size() > 3 || ids.stream().anyMatch(id -> id == null || id.isBlank())) {
+        if (ids == null || ids.size() > 3) {
             throw new IllegalArgumentException("Choose up to three valid toppings");
+        }
+        for (String id : ids) {
+            if (id == null || id.isBlank()) {
+                throw new IllegalArgumentException("Choose up to three valid toppings");
+            }
         }
         if (new HashSet<>(ids).size() != ids.size()) {
             throw new IllegalArgumentException("A topping can only be added once per item");
         }
         Meal decorated = meal;
-        for (String id : ids) decorated = add(decorated, id);
+        for (String id : ids) {
+            decorated = add(decorated, id);
+        }
         return decorated;
     }
 }

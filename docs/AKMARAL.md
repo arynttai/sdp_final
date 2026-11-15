@@ -1,127 +1,83 @@
 # Akmaral: Strategy and Bridge
 
-These two patterns extend Anuar's Factory Method and Builder. A factory creates meals, the builder assembles an order, Strategy calculates its price, and Bridge renders a receipt. The implementation is plain Java 21 with no additional dependencies.
+Akmaral's part includes two patterns: **Strategy** is behavioral, and **Bridge** is structural. Strategy chooses a discount rule. Bridge creates receipts in different formats. Both parts use the same order as the rest of the project.
 
-## Strategy: choosing a discount
+GitHub: [arynttai](https://github.com/arynttai). Original commits: [Strategy](https://github.com/arynttai/sdp_final/commit/f05a62e34cb57f9c0647b9963497f20861b0aa6e) and [Bridge](https://github.com/arynttai/sdp_final/commit/b78f7d6e3357910a7de4cd085047843221717ced).
 
-`DiscountStrategy` defines `code()` and `discount(Order)`. The latter returns the **discount amount**, not the final price.
+## Strategy: choose a discount
+
+`DiscountStrategy` is the interface. Its `code()` method gives the discount name. Its `discount(Order)` method returns the amount to subtract.
 
 | Class | Code | Rule |
 | --- | --- | --- |
-| `NoDiscount` | `NONE` | No discount |
-| `StudentDiscount` | `STUDENT` | 10% of subtotal |
-| `PickupDiscount` | `PICKUP` | 20% of subtotal, only for `TAKEAWAY` |
+| `NoDiscount` | `NONE` | 0% |
+| `StudentDiscount` | `STUDENT` | 10% |
+| `PickupDiscount` | `PICKUP` | 20%, takeaway only |
 
-`PricingCalculator` calls the selected strategy once and returns an immutable `Pricing` record containing `subtotal()`, `discount()` and `total()`. It rejects a missing discount or an amount outside the range from zero to subtotal. `PICKUP` on a dine-in order throws `IllegalArgumentException` with an explanation.
+`PricingCalculator` uses the chosen strategy and creates a `Pricing` record. It rejects a discount below zero or above the order subtotal. A pickup discount on a dine-in order also gives an error.
 
-Money uses `BigDecimal`, two decimal places and `HALF_UP`. The discount is rounded before subtracting it from subtotal. For example, a 4000.00 KZT order with `STUDENT` has a 400.00 discount and a 3600.00 total. For a 0.05 subtotal, the same strategy rounds 0.005 to 0.01, leaving 0.04 payable.
+This pattern keeps each rule in its own class. We can add another rule without changing the calculator.
 
-`Order` and its builder do not select or store a strategy. `Order.total()` retains its original meaning: the amount **before discounts**, equal to `Order.subtotal()`. Use **`Pricing.total()`** when displaying the amount payable. Calculating again does not compound discounts or change the order.
+Prices are in KZT. `BigDecimal` stores decimal amounts accurately. The code rounds money to two decimal places using `HALF_UP`: a third decimal digit of 5 or more rounds up.
 
-```mermaid
-classDiagram
-    class DiscountStrategy {
-        <<interface>>
-        +code() String
-        +discount(Order order) BigDecimal
-    }
-    class NoDiscount
-    class StudentDiscount
-    class PickupDiscount
-    class PricingCalculator {
-        +calculate(Order order, DiscountStrategy strategy) Pricing
-    }
-    class Pricing {
-        <<record>>
-        +subtotal() BigDecimal
-        +discount() BigDecimal
-        +total() BigDecimal
-    }
-    DiscountStrategy <|.. NoDiscount
-    DiscountStrategy <|.. StudentDiscount
-    DiscountStrategy <|.. PickupDiscount
-    PricingCalculator ..> DiscountStrategy : calls once
-    PricingCalculator ..> Pricing : creates
-```
+- `subtotal` is the amount before a discount.
+- `discount` is the amount removed.
+- `Pricing.total()` is the amount to pay.
 
-## Bridge: document purpose and output format
+`Order.total()` still means the subtotal. For 4000 KZT with `STUDENT`, the discount is 400 KZT and the payable total is 3600 KZT.
 
-The two independent choices are:
+[Strategy source](../src/main/java/com/restaurant/strategy) and [Strategy UML](../output/pdf/ITALIANO-Report.pdf).
 
-- **Document:** `CustomerReceipt` shows quantities, line prices and all pricing totals; `KitchenTicket` shows quantities, service mode, table and note, without prices.
-- **Renderer:** `TextReceiptRenderer` produces plain text; `HtmlReceiptRenderer` produces an HTML fragment for a page.
+## Bridge: choose a document and format
 
-`ReceiptDocument` receives a `ReceiptRenderer` through its constructor. Each document builds a `ReceiptContent`; the renderer only formats that content. `ReceiptContent` copies its lists so that they cannot change after construction. Both documents include order/customer details and any topping labels supplied by `OrderLine`.
+`ReceiptDocument` is the base class for two documents. `CustomerReceipt` shows items, prices, the discount and the final total. `KitchenTicket` shows items, quantities, service details and notes, without prices.
 
-All four combinations work. There are no classes such as `HtmlCustomerReceipt` or `TextKitchenTicket`: adding a format does not require another class for every document. HTML escapes dynamic strings, including names, notes, meal names and topping labels. Text output keeps the original text.
+`ReceiptRenderer` is the format interface. `TextReceiptRenderer` makes plain text. `HtmlReceiptRenderer` makes HTML. `ReceiptContent` holds the data passed to a renderer. HTML output escapes user text so it cannot become HTML code.
 
-```mermaid
-classDiagram
-    class ReceiptDocument {
-        <<abstract>>
-        -ReceiptRenderer renderer
-        +render(Order order, Pricing pricing) String
-        #content(Order order, Pricing pricing) ReceiptContent
-    }
-    class CustomerReceipt
-    class KitchenTicket
-    class ReceiptRenderer {
-        <<interface>>
-        +render(ReceiptContent content) String
-    }
-    class TextReceiptRenderer
-    class HtmlReceiptRenderer
-    class ReceiptContent {
-        <<record>>
-        +title() String
-        +details() List~String~
-        +items() List~String~
-        +totals() List~String~
-    }
-    ReceiptDocument <|-- CustomerReceipt
-    ReceiptDocument <|-- KitchenTicket
-    ReceiptDocument o-- ReceiptRenderer : delegates formatting
-    ReceiptRenderer <|.. TextReceiptRenderer
-    ReceiptRenderer <|.. HtmlReceiptRenderer
-    ReceiptDocument ..> ReceiptContent : creates
-    ReceiptRenderer ..> ReceiptContent : reads
-```
+A document receives its renderer in the constructor. Two document types and two formats give four combinations. This avoids a separate class for every combination. We can add a format without changing both document classes.
 
-## Integration for Mukhammad
+[Bridge source](../src/main/java/com/restaurant/bridge) and [Bridge UML](../output/pdf/ITALIANO-Report.pdf).
 
-Build the order with the existing `MenuCatalog`, `OrderLine` and `Order.Builder`. Choose one strategy and calculate pricing for that same order:
+## Small example
+
+Here, `order` is an existing `Order` made by `Order.Builder`. Use pricing from that same order.
 
 ```java
-import com.restaurant.bridge.abstraction.CustomerReceipt;
-import com.restaurant.bridge.abstraction.KitchenTicket;
-import com.restaurant.bridge.implementation.HtmlReceiptRenderer;
-import com.restaurant.bridge.implementation.TextReceiptRenderer;
-import com.restaurant.strategy.concrete.StudentDiscount;
-import com.restaurant.strategy.context.Pricing;
-import com.restaurant.strategy.context.PricingCalculator;
-import java.math.BigDecimal;
-
-Pricing pricing = new PricingCalculator().calculate(order, new StudentDiscount());
-String html = new CustomerReceipt(new HtmlReceiptRenderer()).render(order, pricing);
-String text = new KitchenTicket(new TextReceiptRenderer()).render(order, pricing);
-BigDecimal amountToPay = pricing.total();
+Pricing pricing = new PricingCalculator()
+    .calculate(order, new StudentDiscount());
+String receipt = new CustomerReceipt(new TextReceiptRenderer())
+    .render(order, pricing);
+System.out.println(receipt);
 ```
 
-`NoDiscount` and `PickupDiscount` are in the same `strategy.concrete` package. Pass pricing calculated from the order being rendered; `Pricing` does not carry an order ID. The HTML result is a fragment, so the future page supplies its layout and styles.
+## Team integration
 
-For Decorator integration, wrap a `Meal` before adding it to `OrderLine`. `price()` should include the extras; topping labels alone do not change the price. Strategy then uses the resulting order subtotal, and receipts read each line through the existing `Meal` interface. Observer can use the receipt API when reacting to an order event. No observer, decorator or web server is implemented here.
+Anuar's Factory Method creates a meal. Mukhammad's Decorator adds toppings. Anuar's Builder creates the order. Strategy calculates the price, and Bridge prints its documents. Observer sends status information to the customer and kitchen parts.
 
-## Design choices
+The project has six pattern packages and `Main` outside them. Together, the team covers creational, structural and behavioral patterns.
 
-- **SRP:** strategies decide the discount, the calculator produces pricing, documents choose receipt content, and renderers format it.
-- **OCP:** a new discount implements `DiscountStrategy` without changing the calculator. A new renderer can be used by both existing documents.
-- **LSP:** either renderer accepts the same `ReceiptContent` contract and can be substituted for the other.
-- **ISP:** `DiscountStrategy` and `ReceiptRenderer` expose only the operations their callers need.
-- **DIP:** the calculator uses `DiscountStrategy`; documents use `ReceiptRenderer`, rather than depending on a particular implementation.
-- **KISS / DRY:** common receipt details are assembled in `ReceiptDocument`; money stays in `Pricing` and the calculator. There is no extra framework or class for every document/format combination.
+## Design ideas for the defense
 
-## Verification
+- **OOP:** interfaces allow different implementations. Inheritance connects receipt classes. Composition means a document contains a renderer.
+- **SRP:** discount classes calculate discounts; renderers format documents.
+- **OCP:** new rules or formats can use the existing interfaces.
+- **LSP:** either renderer can work with either document.
+- **ISP:** the interfaces have only a few necessary methods.
+- **DIP:** the calculator and documents depend on interfaces.
+- **KISS:** use simple classes and two clear choices for receipts.
+- **DRY:** `ReceiptDocument` shares common details and item formatting.
 
-Run `./mvnw verify` (Windows: `mvnw.cmd verify`) and `java -jar target/hearth-and-table-1.0.0.jar` with JDK 21.
+## Show the result
 
-`PricingCalculatorTest` covers every discount, eligibility, rounding, invalid amounts, one strategy call and unchanged order totals. `ReceiptTest` covers all four Bridge combinations, the discounted customer total, kitchen details, HTML escaping and immutable receipt data. Both suites use the existing Factory and Builder. `Main` preserves Anuar's demonstration and then shows all three strategies and all four receipt combinations.
+Use JDK 21 or newer. From the project folder in Windows PowerShell:
+
+```powershell
+.\mvnw.cmd package
+java -jar target/hearth-and-table-1.0.0.jar --demo
+```
+
+[Main](../src/main/java/com/restaurant/Main.java) demonstrates all six patterns. For a 3400 KZT takeaway order, the three strategies give totals of 3400, 3060 and 2720 KZT. It shows all four receipt combinations. The combined example checks 4700 KZT before discount, 4230 KZT after discount and eight notifications.
+
+The PDF report must include code examples, UML and screenshots. Submit it with the source ZIP and repository link. At the defense, explain the choices and show the output.
+
+Pattern explanations: [Strategy](https://refactoring.guru/design-patterns/strategy), [Bridge](https://refactoring.guru/design-patterns/bridge).

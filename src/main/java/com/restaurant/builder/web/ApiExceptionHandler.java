@@ -2,6 +2,10 @@ package com.restaurant.builder.web;
 
 import com.restaurant.builder.application.OrderNotFoundException;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import org.springframework.validation.FieldError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,8 +22,15 @@ public final class ApiExceptionHandler {
     public ResponseEntity<Map<String, String>> missing(OrderNotFoundException e) { return error(404, e.getMessage()); }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> validation(MethodArgumentNotValidException e) {
-        String message = e.getBindingResult().getFieldErrors().stream()
-            .map(field -> field.getField() + ": " + field.getDefaultMessage()).sorted().findFirst().orElse("Invalid order details");
+        List<String> messages = new ArrayList<>();
+        for (FieldError field : e.getBindingResult().getFieldErrors()) {
+            messages.add(field.getField() + ": " + field.getDefaultMessage());
+        }
+        Collections.sort(messages);
+        String message = "Invalid order details";
+        if (!messages.isEmpty()) {
+            message = messages.get(0);
+        }
         return error(400, message);
     }
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})

@@ -41,7 +41,7 @@ public final class OrderController {
     public ResponseEntity<String> receipt(@PathVariable UUID id, @RequestParam(defaultValue = "html") String format,
             @RequestParam(defaultValue = "customer") String type, @RequestParam(defaultValue = "dark") String theme,
             HttpSession session) {
-        var receipt = service.receipt(id, format, type, book(session), theme);
+        OrderService.Receipt receipt = service.receipt(id, format, type, book(session), theme);
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(receipt.contentType()))
             .header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'")
             .body(receipt.body());
